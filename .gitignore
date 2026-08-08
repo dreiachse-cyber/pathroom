@@ -1,0 +1,15 @@
+site/node_modules/
+site/dist/
+site/.vite/
+.pnpm-store/
+*.log
+.DS_Store
+Thumbs.db
+
+# Local visual QA scratch files
+site/qa/
+docs/qa/*
+!docs/qa/implementation-desktop-public.jpg
+!docs/qa/implementation-mobile-public.jpg
+!docs/qa/comparison-desktop-public.jpg
+!docs/qa/comparison-cards-public.jpg
