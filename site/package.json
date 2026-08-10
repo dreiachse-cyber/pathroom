@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
-    "test": "node --test tests/catalog.test.mjs tests/public-assets.test.mjs",
+    "test": "node --test --test-concurrency=1 tests/catalog.test.mjs tests/catalog-integrity.test.mjs tests/svg-integrity.test.mjs tests/public-assets.test.mjs tests/app-contract.test.mjs",
     "test:pages-base": "node scripts/verify-pages-build.mjs",
     "test:sites": "node --test tests/sites-worker.test.mjs"
   },

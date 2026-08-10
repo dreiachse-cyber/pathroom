@@ -159,6 +159,7 @@ a {
   gap: 16px;
   overflow-x: auto;
   border-bottom: 1px solid var(--rule);
+  scroll-padding-inline: 16px;
   scrollbar-width: none;
 }
 
@@ -244,6 +245,7 @@ a {
 }
 
 .icon-card {
+  position: relative;
   display: flex;
   min-width: 0;
   height: 198px;
@@ -257,6 +259,23 @@ a {
   transition:
     border-color 140ms ease,
     background-color 140ms ease;
+}
+
+.collection-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 5px;
+  border: 1px solid #c8d5f6;
+  border-radius: 4px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .load-more-row {

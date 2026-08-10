@@ -16,4 +16,4 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Keep the core interactions real: text search, category filtering, sorting, keyboard focus, SVG copy, and copy-success feedback.
 - Use query parameters for shareable catalog state and base-aware asset URLs so the same build can run under a GitHub Pages repository path.
 - Treat SVG file download as the primary card action and SVG code copy as a secondary action.
-- Keep the current Tabler Icons catalog available under its MIT license, then add Luna-generated PATHROOM Originals as a clearly separate future collection.
+- Keep the current Tabler Icons catalog available under its MIT license and maintain Luna-generated PATHROOM Originals as a clearly separate collection with its own MIT license notice.

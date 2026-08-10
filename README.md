@@ -35,4 +35,4 @@ GitHub Pagesでは `site/dist/client` だけを公開します。リポジトリ
 - 保存・コピーのフィードバック
 - レスポンシブ表示
 
-掲載中の120アイコンはTabler Icons v3.46.0由来で、PATHROOMの独自アイコンではありません。Tabler IconsはMIT Licenseの条件で配布しています。初期表示は48件です。PATHROOM Originalsは、現在のカタログを残したまま今後追加する予定です。著作権表示と第三者ライセンスの全文は `THIRD_PARTY_NOTICES.md` を参照してください。
+掲載中の120アイコンはTabler Icons v3.46.0由来、追加した24アイコンはPATHROOM Originalsの独自制作物です。Tabler IconsはMIT Licenseの条件で配布し、PATHROOM Originalsも [`PATHROOM_ORIGINALS_LICENSE.md`](PATHROOM_ORIGINALS_LICENSE.md) のMIT Licenseで配布しています。初期表示は48件です。第三者ソフトウェアとフォントの著作権表示・ライセンス全文は `THIRD_PARTY_NOTICES.md` を参照してください。

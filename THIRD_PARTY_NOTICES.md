@@ -35,4 +35,4 @@ PATHROOMの公開成果物には、次の第三者製ソフトウェアとフォ
 - License: MIT License
 - Copyright: Copyright (c) 2019-present, VoidZero Inc. and Vite contributors
 
-掲載中の120アイコンはPATHROOMの独自制作物ではありません。PATHROOM Originalsは今後、由来を明確に分けた別コレクションとして追加する予定です。
+掲載中の120アイコンはTabler Icons由来です。PATHROOM Originalsは由来とライセンス表示を分けた別コレクションで、専用ライセンス本文は [`PATHROOM_ORIGINALS_LICENSE.md`](PATHROOM_ORIGINALS_LICENSE.md) と公開用の [`site/public/PATHROOM_ORIGINALS_LICENSE.txt`](site/public/PATHROOM_ORIGINALS_LICENSE.txt) に収録しています。

@@ -11,11 +11,27 @@ export function filterCatalog(items, { query = "", category = "all" } = {}) {
   const terms = normalizedQuery.split(" ").filter(Boolean);
 
   return items.filter((item) => {
-    if (category !== "all" && item.category !== category) return false;
+    if (
+      category !== "all" &&
+      (category === "originals"
+        ? item.collection !== "pathroom-originals"
+        : item.category !== category)
+    ) {
+      return false;
+    }
     if (terms.length === 0) return true;
 
     const haystack = normalizeSearch(
-      [item.name, item.nameJa, item.category, ...item.tags].join(" "),
+      [
+        item.name,
+        item.nameJa,
+        item.category,
+        item.collection,
+        item.collection === "pathroom-originals"
+          ? "PATHROOM Originals original オリジナル"
+          : "Tabler Icons tabler",
+        ...item.tags,
+      ].join(" "),
     );
 
     return terms.every((term) => haystack.includes(term));

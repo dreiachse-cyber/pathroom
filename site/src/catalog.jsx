@@ -120,6 +120,27 @@ import {
   IconZoomIn,
   IconZoomOut,
 } from "@tabler/icons-react";
+import { pathroomOriginalIcons } from "./icons/pathroom-originals/index.js";
+
+export const collections = {
+  tabler: {
+    label: "Tabler Icons",
+    licenseName: "MIT",
+    publicLicenseUrl:
+      "https://dreiachse-cyber.github.io/pathroom/THIRD_PARTY_NOTICES.txt",
+    copyrightHolder: "Copyright (c) 2020-2026 Paweł Kuna",
+    svgComment:
+      "Tabler Icons v3.46.0 | MIT | Copyright (c) 2020-2026 Paweł Kuna",
+  },
+  "pathroom-originals": {
+    label: "PATHROOM Originals",
+    licenseName: "MIT",
+    publicLicenseUrl:
+      "https://dreiachse-cyber.github.io/pathroom/PATHROOM_ORIGINALS_LICENSE.txt",
+    copyrightHolder: "Copyright (c) 2026 PATHROOM",
+    svgComment: "PATHROOM Original | MIT | Copyright (c) 2026 PATHROOM",
+  },
+};
 
 export const categories = [
   { id: "all", label: "すべて" },
@@ -127,6 +148,178 @@ export const categories = [
   { id: "arrows", label: "矢印" },
   { id: "files", label: "ファイル" },
   { id: "media", label: "メディア" },
+  { id: "originals", label: "Originals" },
+];
+
+export const originalsCatalog = [
+  original(
+    "sparkles",
+    "Sparkles",
+    "きらめき",
+    "ui",
+    ["magic", "shine", "AI", "装飾"],
+  ),
+  original(
+    "layers",
+    "Layers",
+    "レイヤー",
+    "ui",
+    ["stack", "arrange", "重なり", "階層"],
+  ),
+  original(
+    "drag-handle",
+    "Drag Handle",
+    "ドラッグハンドル",
+    "ui",
+    ["move", "reorder", "つかむ", "並べ替え"],
+  ),
+  original(
+    "command-key",
+    "Command Key",
+    "コマンドキー",
+    "ui",
+    ["shortcut", "keyboard", "操作", "キー"],
+  ),
+  original(
+    "contrast",
+    "Contrast",
+    "コントラスト",
+    "ui",
+    ["theme", "brightness", "明暗", "表示"],
+  ),
+  original(
+    "focus-frame",
+    "Focus Frame",
+    "フォーカス枠",
+    "ui",
+    ["target", "scan", "選択", "注目"],
+  ),
+  original(
+    "move-all",
+    "Move All",
+    "全方向へ移動",
+    "arrows",
+    ["drag", "direction", "移動", "四方向"],
+  ),
+  original(
+    "turn-left",
+    "Turn Left",
+    "左折",
+    "arrows",
+    ["direction", "corner", "左", "曲がる"],
+  ),
+  original(
+    "turn-right",
+    "Turn Right",
+    "右折",
+    "arrows",
+    ["direction", "corner", "右", "曲がる"],
+  ),
+  original(
+    "route",
+    "Route",
+    "経路",
+    "arrows",
+    ["navigation", "path", "道順", "移動"],
+  ),
+  original(
+    "branch",
+    "Branch",
+    "分岐",
+    "arrows",
+    ["split", "flow", "分かれる", "経路"],
+  ),
+  original(
+    "merge",
+    "Merge",
+    "合流",
+    "arrows",
+    ["join", "flow", "まとまる", "経路"],
+  ),
+  original(
+    "document-check",
+    "Document Check",
+    "確認済み文書",
+    "files",
+    ["approved", "done", "文書", "完了"],
+  ),
+  original(
+    "document-search",
+    "Document Search",
+    "文書検索",
+    "files",
+    ["find", "inspect", "文書", "探す"],
+  ),
+  original(
+    "folder-lock",
+    "Folder Lock",
+    "ロック付きフォルダ",
+    "files",
+    ["secure", "private", "フォルダ", "保護"],
+  ),
+  original(
+    "inbox",
+    "Inbox",
+    "受信箱",
+    "files",
+    ["receive", "tray", "受信", "書類"],
+  ),
+  original(
+    "package",
+    "Package",
+    "パッケージ",
+    "files",
+    ["box", "delivery", "荷物", "配布"],
+  ),
+  original(
+    "cloud-sync",
+    "Cloud Sync",
+    "クラウド同期",
+    "files",
+    ["online", "refresh", "同期", "保存"],
+  ),
+  original(
+    "waveform",
+    "Waveform",
+    "波形",
+    "media",
+    ["audio", "sound", "音声", "波"],
+  ),
+  original(
+    "podcast",
+    "Podcast",
+    "ポッドキャスト",
+    "media",
+    ["broadcast", "voice", "配信", "音声"],
+  ),
+  original(
+    "subtitles",
+    "Subtitles",
+    "字幕",
+    "media",
+    ["captions", "text", "テロップ", "動画"],
+  ),
+  original(
+    "picture-in-picture",
+    "Picture in Picture",
+    "ピクチャーインピクチャー",
+    "media",
+    ["player", "window", "小窓", "動画"],
+  ),
+  original(
+    "repeat",
+    "Repeat",
+    "リピート",
+    "media",
+    ["loop", "replay", "繰り返し", "再生"],
+  ),
+  original(
+    "shuffle",
+    "Shuffle",
+    "シャッフル",
+    "media",
+    ["random", "mix", "ランダム", "再生"],
+  ),
 ];
 
 export const catalog = [
@@ -250,8 +443,31 @@ export const catalog = [
   icon("movie", "Movie", "映画", "media", IconMovie, ["film", "video", "映像"], "2026-07-23"),
   icon("photo-plus", "Add Photo", "画像を追加", "media", IconPhotoPlus, ["image", "new", "写真"], "2026-07-23"),
   icon("radio", "Radio", "ラジオ", "media", IconRadio, ["broadcast", "audio", "放送"], "2026-07-23"),
+  ...originalsCatalog,
 ];
 
-function icon(slug, name, nameJa, category, Icon, tags, createdAt) {
-  return { slug, name, nameJa, category, Icon, tags, createdAt };
+function original(slug, name, nameJa, category, tags) {
+  return icon(
+    slug,
+    name,
+    nameJa,
+    category,
+    pathroomOriginalIcons[slug],
+    tags,
+    "2026-08-09",
+    "pathroom-originals",
+  );
+}
+
+function icon(
+  slug,
+  name,
+  nameJa,
+  category,
+  Icon,
+  tags,
+  createdAt,
+  collection = "tabler",
+) {
+  return { slug, name, nameJa, category, collection, Icon, tags, createdAt };
 }

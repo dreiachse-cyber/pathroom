@@ -7,12 +7,24 @@ import {
 } from "@tabler/icons-react";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/noto-sans-jp";
-import { catalog, categories } from "./catalog.jsx";
+import { catalog, categories, collections } from "./catalog.jsx";
 import { filterCatalog, sortCatalog } from "./search.js";
+import { serializeSvgMarkup } from "./svg.js";
 
 const PAGE_SIZE = 48;
 const GITHUB_REPOSITORY_URL = "https://github.com/dreiachse-cyber/pathroom";
 const categoryIds = new Set(categories.map((category) => category.id));
+const collectionCounts = catalog.reduce(
+  (counts, item) => ({
+    ...counts,
+    [item.collection]: (counts[item.collection] || 0) + 1,
+  }),
+  {},
+);
+
+function catalogSummary() {
+  return `${collectionCounts.tabler} Tabler · ${collections.tabler.licenseName} + ${collectionCounts["pathroom-originals"]} PATHROOM Originals · ${collections["pathroom-originals"].licenseName}`;
+}
 
 function readCatalogState() {
   if (typeof window === "undefined") {
@@ -45,6 +57,8 @@ export function App() {
   const [actionError, setActionError] = useState("");
   const [visibleLimit, setVisibleLimit] = useState(PAGE_SIZE);
   const searchRef = useRef(null);
+  const categoryTabsRef = useRef(null);
+  const activeCategoryRef = useRef(null);
   const feedbackTimerRef = useRef(null);
 
   const allResults = useMemo(() => {
@@ -57,6 +71,38 @@ export function App() {
   useEffect(() => {
     setVisibleLimit(PAGE_SIZE);
   }, [category, query, sort]);
+
+  useEffect(() => {
+    const tabs = categoryTabsRef.current;
+    const activeTab = activeCategoryRef.current;
+
+    if (!tabs || !activeTab) return;
+
+    const alignActiveTab = () => {
+      const activeStart = activeTab.offsetLeft;
+      const activeEnd = activeStart + activeTab.offsetWidth;
+      const visibleStart = tabs.scrollLeft;
+      const visibleEnd = visibleStart + tabs.clientWidth;
+
+      if (activeStart < visibleStart || activeEnd > visibleEnd) {
+        tabs.scrollTo({
+          left: Math.max(
+            0,
+            activeStart - (tabs.clientWidth - activeTab.offsetWidth) / 2,
+          ),
+          behavior: "auto",
+        });
+      }
+    };
+
+    const frame = window.requestAnimationFrame(alignActiveTab);
+    window.addEventListener("resize", alignActiveTab);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", alignActiveTab);
+    };
+  }, [category]);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -176,7 +222,7 @@ export function App() {
       <main id="top" className="catalog-page">
         <section className="catalog-intro" aria-labelledby="catalog-heading">
           <h1 id="catalog-heading">使えるSVGを、すぐ見つける。</h1>
-          <p>{catalog.length} icons from Tabler Icons · MIT</p>
+          <p>{catalogSummary()}</p>
         </section>
 
         <section className="catalog-tools" aria-label="アイコン検索と絞り込み">
@@ -195,10 +241,16 @@ export function App() {
             />
           </label>
 
-          <div className="category-tabs" role="group" aria-label="カテゴリ">
+          <div
+            ref={categoryTabsRef}
+            className="category-tabs"
+            role="group"
+            aria-label="カテゴリ"
+          >
             {categories.map((item) => (
               <button
                 key={item.id}
+                ref={category === item.id ? activeCategoryRef : null}
                 className={category === item.id ? "is-active" : ""}
                 type="button"
                 aria-pressed={category === item.id}
@@ -297,10 +349,18 @@ export function App() {
           <section id="license">
             <h2>ライセンス</h2>
             <p>
-              掲載中の120件はTabler Icons由来で、MIT Licenseの条件で利用できる。
+              Tabler Icons由来の{collectionCounts.tabler}件はMIT Licenseの条件で利用できる。
               <a href={`${import.meta.env.BASE_URL}THIRD_PARTY_NOTICES.txt`}>
                 第三者ライセンス全文
               </a>
+              。PATHROOM Originalsの{collectionCounts["pathroom-originals"]}件もMIT
+              Licenseで、商用利用・改変・アイコン単体販売ができ、通常利用時の表示上のクレジットは任意。素材を再配布する場合は著作権表示とMIT本文の同梱が必要。
+              <a
+                href={`${import.meta.env.BASE_URL}PATHROOM_ORIGINALS_LICENSE.txt`}
+              >
+                Originalsライセンス全文
+              </a>
+              を確認できる。
             </p>
           </section>
           <section id="github">
@@ -316,7 +376,7 @@ export function App() {
             </p>
           </section>
           <p className="third-party-note">
-            PATHROOM Originalsは今後追加予定。現在の配布アイコンはPATHROOMオリジナルではありません。
+            Tabler IconsとPATHROOM Originalsは、由来とライセンス表示を分けた別コレクションとして掲載している。
           </p>
         </footer>
       </main>
@@ -350,11 +410,14 @@ function IconCard({
 
   return (
     <article
-      className={`icon-card${isSelected ? " is-selected" : ""}`}
+      className={`icon-card${isSelected ? " is-selected" : ""}${item.collection === "pathroom-originals" ? " has-collection-badge" : ""}`}
       data-icon-slug={item.slug}
       onPointerDown={onSelect}
       onFocus={onSelect}
     >
+      {item.collection === "pathroom-originals" ? (
+        <span className="collection-badge">PATHROOM</span>
+      ) : null}
       <div className="icon-preview" aria-hidden="true">
         <Icon size={50} stroke={2} />
       </div>
@@ -411,7 +474,7 @@ function serializeIconSvg(item) {
   clone.removeAttribute("aria-hidden");
   clone.removeAttribute("focusable");
 
-  return `<!-- Tabler Icons v3.46.0 | MIT | Copyright (c) 2020-2026 Paweł Kuna | License: https://dreiachse-cyber.github.io/pathroom/THIRD_PARTY_NOTICES.txt -->\n${clone.outerHTML}`;
+  return serializeSvgMarkup(clone.outerHTML, item);
 }
 
 function triggerSvgDownload(svgText, filename) {

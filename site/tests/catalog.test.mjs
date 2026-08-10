@@ -38,6 +38,21 @@ test("filters categories and returns an empty result safely", () => {
   assert.equal(filterCatalog(items, { query: "unknown" }).length, 0);
 });
 
+test("filters Originals by collection and searches collection terms", () => {
+  const originals = {
+    name: "Sparkles",
+    nameJa: "きらめき",
+    category: "ui",
+    collection: "pathroom-originals",
+    tags: ["magic"],
+    createdAt: "2026-08-09",
+  };
+
+  assert.equal(filterCatalog([...items, originals], { category: "originals" }).length, 1);
+  assert.equal(filterCatalog([originals], { query: "Originals" }).length, 1);
+  assert.equal(filterCatalog([originals], { query: "オリジナル" }).length, 1);
+});
+
 test("keeps featured order and sorts by name or newest", () => {
   assert.equal(sortCatalog(items, "featured")[0].name, "Arrow Up");
   assert.equal(sortCatalog([...items].reverse(), "name")[0].name, "Arrow Up");

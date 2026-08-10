@@ -44,11 +44,12 @@
 - [fixed P2 / accessibility] 失敗文言がpolite statusとalertで二重読み上げされる状態だった。失敗時はpolite statusを空にし、可視`role="alert"`だけで通知するようにした。
 - [fixed P1 / legal disclosure] 公開成果物に第三者ライセンス全文が含まれていなかった。`site/public/THIRD_PARTY_NOTICES.txt`を追加し、Tabler、React、React DOM、Scheduler、Vite、Inter、Noto Sans JPの著作権表示とライセンス全文を公開成果物へ含めた。
 - [fixed P2 / interaction clarity] コピーだけだった操作を、主操作「SVG保存」と補助操作「コード」へ整理した。補助buttonのaccessible nameとtitleは「SVGコードをコピー」とした。
+- [fixed P1 / responsive navigation] 320px・375pxの`?category=originals`直接表示や履歴復元で選択タブが画面外に残る状態を、カテゴリ変更時に横スクロール領域だけを自動調整して解消した。
 
 ## Accepted P3 differences
 
 - 参照はコピー操作だけを描いているが、公開版ではユーザーの主用途に合わせて同じ操作行へSVG保存を追加した。カード高、列数、白地中心の密度は維持している。
-- 配布中の120件はMITのTabler Iconsで、個々のglyphは参照画像と完全同一ではない。画面上に出典を明記し、PATHROOM Originalsとは分けている。
+- 配布中の144件のうち120件はMITのTabler Iconsで、個々のglyphは参照画像と完全同一ではない。残る24件のPATHROOM Originalsとは、画面上の出典とライセンスを分けている。
 - 参照画像の既定表示「名前順」はカードの提示順と整合しないため、実装ではその提示順を「標準順」と明示した。
 
 ## Interaction QA
@@ -58,7 +59,7 @@
 - 日本語タグ検索: `虫眼鏡` → Search 1件。
 - 英語検索 + カテゴリ: `arrow` + `arrows` → 26件。
 - 履歴とURL: 検索はreplace、カテゴリと並び順はpushし、popstateで復元する。
-- 増分表示: 48 → 96 → 120件、最終buttonは「120件すべて表示済み」となりfocusを保持する。
+- 増分表示: 48 → 96 → 144件、最終buttonは「144件すべて表示済み」となりfocusを保持する。
 - キーボード: `/`で検索へfocus、`Escape`で検索語とURLをクリアする。
 - 第三者ライセンス: footerのbase-aware linkがローカルでは`/THIRD_PARTY_NOTICES.txt`、Pages buildでは`/pathroom/THIRD_PARTY_NOTICES.txt`へ解決する。
 
@@ -92,7 +93,7 @@
 
 ## Comparison history
 
-1. Initial implementation: shortcut hint、card height、weights、copy icon、focus、sorting、URL history、Clipboard fallback、120件pagingを修正した。
+1. Initial implementation: shortcut hint、card height、weights、copy icon、focus、sorting、URL history、Clipboard fallback、144件pagingを修正した。
 2. Previous final: full-viewとfocused comparisonで未解決P0/P1/P2なしを確認した。
 3. Public release pass: SVG保存、補助コードコピー、Tabler出典、第三者ライセンス全文を追加して再撮影した。
 4. Public release responsive pass: 320pxの横方向超過とカード操作ラベルの競合を修正し、6 breakpointすべてでoverflowなしを再確認した。
