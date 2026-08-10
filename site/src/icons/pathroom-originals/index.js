@@ -34,6 +34,10 @@ export * from "./batch-002-commerce.jsx";
 export * from "./batch-002-communication.jsx";
 export * from "./batch-002-data.jsx";
 export * from "./batch-002-devices.jsx";
+export * from "./batch-003-ui.jsx";
+export * from "./batch-003-arrows.jsx";
+export * from "./batch-003-files.jsx";
+export * from "./batch-003-media.jsx";
 
 import {
   IconPathroomCommandKey,
@@ -68,6 +72,7 @@ import {
   IconPathroomWaveform,
 } from "./batch-001-media.jsx";
 import { batch002Icons } from "./batch-002-registry.js";
+import { batch003Icons } from "./batch-003-registry.js";
 
 export const pathroomOriginalIcons = Object.freeze({
   sparkles: IconPathroomSparkles,
@@ -95,4 +100,5 @@ export const pathroomOriginalIcons = Object.freeze({
   repeat: IconPathroomRepeat,
   shuffle: IconPathroomShuffle,
   ...batch002Icons,
+  ...batch003Icons,
 });

@@ -5,7 +5,7 @@
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: React/Vite公開版のBatch 002実装・QA完了
+- 状態: React/Vite公開版のBatch 003実装・QA完了
 
 ## 1. 企画の核
 
@@ -92,6 +92,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 | パイロット | 24個 | 作風、SVG規格、検査、サイト表示の一連の流れを検証する |
 | 初回MVP公開 | 144個 | 検索・カテゴリ・詳細・コピー・保存を実用レベルで確認する |
 | Batch 002 | 176個 | 32個単位の量産・検査・公開フローを確立する |
+| Batch 003 | 208個 | サイズ別比較と近似形状の自動ゲートを運用へ組み込む |
 | 拡張1 | 500個 | 生成、重複検出、レビュー運用を安定させる |
 | 目標 | 1,000個 | 120 Tabler + 880 Originalsの完成カタログに到達する |
 | 拡張2 | 2,000個 | インデックス分割や一覧仮想化の必要性を計測する |
@@ -179,7 +180,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 1. 短い価値説明と公開アイコン数
 2. 大きな検索欄
 3. カテゴリチップとフィルター
-4. 「176件中48件」のような結果件数と並び順
+4. 「208件中48件」のような結果件数と並び順
 5. アイコンカードグリッド
 6. 「さらに表示」
 7. ライセンス要約とフッター
@@ -305,6 +306,12 @@ site/src/icons/pathroom-originals/
   batch-002-devices.jsx
   batch-002-catalog.js
   batch-002-registry.js
+  batch-003-ui.jsx
+  batch-003-arrows.jsx
+  batch-003-files.jsx
+  batch-003-media.jsx
+  batch-003-catalog.js
+  batch-003-registry.js
   index.js
 ```
 
@@ -317,7 +324,8 @@ Batch 002のメタデータ例:
   "nameJa": "購入バッグ",
   "category": "commerce",
   "tags": ["checkout", "purchase", "commerce", "買い物", "購入", "コマース"],
-  "createdAt": "2026-08-10"
+  "createdAt": "2026-08-10",
+  "batch": "002"
 }
 ```
 
@@ -390,11 +398,12 @@ PATHROOM Originalsは`site/src/icons/pathroom-originals/`へバッチ別に置�
   → SVG安全性・構文検査
   → 規格・全catalog geometry重複検査
   → 静的セマンティック監査
+  → 16／24／32px比較・pHash／SSIM近似候補ゲート
   → catalogへ採用
   → unit / Sites / Pages base / production build
 ```
 
-Batch 003以降は、静的セマンティック監査に加えて16／24／32pxの比較artifactと近似候補レビューを追加する。
+Batch 003以降は、静的セマンティック監査に加えて16／24／32pxの比較artifactと近似候補レビューを必須化する。比較はWASMレンダラーで再現し、pHash、SSIM、名前・タグ類似度、回転・反転候補を記録する。review JSONはrender digestに加え、renderer・閾値・metadata・近傍関係・flag全内容のapproval digestを保持し、古い承認を再利用できないようにする。
 
 ### 制作時に固定するもの
 
@@ -483,7 +492,7 @@ MVPでは上限へ近づかない見込みだが、500件へ到達するまで�
 
 - 初期表示は48件を上限にする
 - 一覧は表示対象の検査済みReact SVGだけを描画し、初期48件から段階的に追加する
-- 初回DOMへ176件すべてのSVGを展開しない
+- 初回DOMへ208件すべてのSVGを展開しない
 - 検索照合文字列へgeometryを含めず、メタデータだけを使う
 - 一覧追加は「さらに表示」を基本とする
 - カード寸法をCSSで確保し、追加表示時のレイアウト移動を抑える
@@ -526,12 +535,13 @@ metadata contract
   → svg security/spec validation
   → duplicate detection
   → unit tests
+  → 16/24/32px comparison + perceptual review gate
   → static build
   → Sites package tests
   → GitHub Pages base-path verification
 ```
 
-デプロイはこれらがすべて成功した場合だけ実行する。format、型検査、内部リンク検査、ブラウザ型アクセシビリティsmoke test、サイズ別比較artifactはBatch 003以降のCI拡張候補として管理する。
+デプロイはこれらがすべて成功した場合だけ実行する。Batch 003からサイズ別比較artifactと近似形レビューをCIへ組み込み、artifactはActionsへ保存する。format、型検査、内部リンク検査、ブラウザ型アクセシビリティsmoke testは今後のCI拡張候補として管理する。
 
 ## 19. フェーズ計画
 
@@ -611,7 +621,7 @@ metadata contract
 
 PATHROOM Originalsの権利者表記は`Copyright (c) 2026 PATHROOM`で決定した。商用利用・改変・単体販売可、通常利用時の表示上のクレジットは任意、再配布時は著作権表示とMIT本文の同梱が必要である。
 
-現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 56件の計176件を掲載している。最初の48件と既存144件の標準順を維持し、増分表示は48件、96件、144件、176件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
+現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 88件の計208件を掲載している。最初の48件と既存176件の標準順を維持し、増分表示は48件、96件、144件、192件、208件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
 
 ## 22. GitHub公式資料
 

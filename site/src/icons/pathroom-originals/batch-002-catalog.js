@@ -1,4 +1,5 @@
 const createdAt = "2026-08-10";
+const batch = "002";
 
 export const batch002Catalog = Object.freeze(
   [
@@ -231,6 +232,7 @@ export const batch002Catalog = Object.freeze(
       ...item,
       tags: Object.freeze([...item.tags]),
       createdAt,
+      batch,
     }),
   ),
 );

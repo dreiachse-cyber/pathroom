@@ -122,6 +122,7 @@ import {
 } from "@tabler/icons-react";
 import { pathroomOriginalIcons } from "./icons/pathroom-originals/index.js";
 import { batch002Catalog } from "./icons/pathroom-originals/batch-002-catalog.js";
+import { batch003Catalog } from "./icons/pathroom-originals/batch-003-catalog.js";
 
 export const collections = {
   tabler: {
@@ -325,8 +326,13 @@ export const originalsCatalog = [
     "media",
     ["random", "mix", "ランダム", "再生"],
   ),
-  ...batch002Catalog.map(({ slug, name, nameJa, category, tags, createdAt }) =>
-    original(slug, name, nameJa, category, tags, createdAt),
+  ...batch002Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch),
+  ),
+  ...batch003Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
   ),
 ];
 
@@ -454,17 +460,31 @@ export const catalog = [
   ...originalsCatalog,
 ];
 
-function original(slug, name, nameJa, category, tags, createdAt = "2026-08-09") {
-  return icon(
-    slug,
-    name,
-    nameJa,
-    category,
-    pathroomOriginalIcons[slug],
-    tags,
-    createdAt,
-    "pathroom-originals",
-  );
+function original(
+  slug,
+  name,
+  nameJa,
+  category,
+  tags,
+  createdAt = "2026-08-09",
+  batch = "001",
+  family,
+) {
+  const item = {
+    ...icon(
+      slug,
+      name,
+      nameJa,
+      category,
+      pathroomOriginalIcons[slug],
+      tags,
+      createdAt,
+      "pathroom-originals",
+    ),
+    batch,
+  };
+
+  return family ? { ...item, family } : item;
 }
 
 function icon(

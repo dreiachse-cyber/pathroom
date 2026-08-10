@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 2,
+  "algorithm": "pathroom-dct64-content-ssim-v1",
+  "batch": "003",
+  "renderDigest": "56194b9d8f866fb0d4ada8401e809e1ff21898f71b2296f58bbc9affb9a8a913",
+  "approvalDigest": "3e80a5df018b7ecc7e24cc51d25a3b4a2de06e442d0e1ba80533faffe8e8adea",
+  "icons": [
+    { "slug": "toggle-on", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "cursor-click", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "sidebar-layout", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "tab-strip", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "text-field", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "accordion-list", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "toast-notice", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "pagination-dots", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "indent-increase", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "indent-decrease", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "wrap-forward", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "step-up", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "detour-right", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "compress-vertical", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "spread-horizontal", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "sort-ascending", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "file-code", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "file-spreadsheet", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "document-stack", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "folder-share", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "document-signature", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully; the signature line preserves its document-signing purpose." },
+    { "slug": "document-scan", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "folder-favorite", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "file-shield", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully; the shield preserves its protected-file purpose." },
+    { "slug": "vinyl-record", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "cassette-tape", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "live-stream", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "screen-record", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "audio-mixer", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "video-trim", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "spatial-audio", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." },
+    { "slug": "lyrics-panel", "decision": "pass", "note": "16px, 24px, and 32px rasters generated successfully with a distinct semantic silhouette." }
+  ],
+  "pairs": [
+    {
+      "key": "document-signature::file-download",
+      "firstSlug": "document-signature",
+      "secondSlug": "file-download",
+      "reasons": ["phash"],
+      "decision": "accept-distinct",
+      "rationale": "The signature line communicates document signing, while the existing icon communicates a downward file transfer."
+    },
+    {
+      "key": "document-signature::file-text",
+      "firstSlug": "document-signature",
+      "secondSlug": "file-text",
+      "reasons": ["phash"],
+      "decision": "accept-distinct",
+      "rationale": "The signature stroke gives this icon a signing purpose that is distinct from a generic text document."
+    },
+    {
+      "key": "document-search::file-shield",
+      "firstSlug": "file-shield",
+      "secondSlug": "document-search",
+      "reasons": ["phash"],
+      "decision": "accept-distinct",
+      "rationale": "The shield communicates file protection and remains semantically distinct from the existing magnifying-glass search icon."
+    }
+  ]
+}

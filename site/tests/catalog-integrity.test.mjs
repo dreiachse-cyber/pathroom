@@ -10,6 +10,8 @@ const siteRoot = fileURLToPath(new URL("..", import.meta.url));
 let viteServer;
 let catalogModule;
 let originalsModule;
+let batch003CatalogModule;
+let batch003RegistryModule;
 let searchModule;
 
 test.before(async () => {
@@ -23,6 +25,12 @@ test.before(async () => {
   catalogModule = await viteServer.ssrLoadModule("/src/catalog.jsx");
   originalsModule = await viteServer.ssrLoadModule(
     "/src/icons/pathroom-originals/index.js",
+  );
+  batch003CatalogModule = await viteServer.ssrLoadModule(
+    "/src/icons/pathroom-originals/batch-003-catalog.js",
+  );
+  batch003RegistryModule = await viteServer.ssrLoadModule(
+    "/src/icons/pathroom-originals/batch-003-registry.js",
   );
   searchModule = await viteServer.ssrLoadModule("/src/search.js");
 });
@@ -46,13 +54,13 @@ test("the real catalog has the required shape and fixed collection counts", () =
   const slugs = new Set();
   const normalizedNames = new Set();
 
-  assert.equal(catalog.length, 176);
+  assert.equal(catalog.length, 208);
   assert.equal(catalog.filter((item) => item.collection === "tabler").length, 120);
   assert.equal(
     catalog.filter((item) => item.collection === "pathroom-originals").length,
-    56,
+    88,
   );
-  assert.equal(originalsCatalog.length, 56);
+  assert.equal(originalsCatalog.length, 88);
   assert.deepEqual(
     categories.map((category) => category.id),
     [
@@ -81,6 +89,38 @@ test("the real catalog has the required shape and fixed collection counts", () =
       `${category} tags must be frozen batch metadata`,
     );
   }
+
+  const batch003Items = originalsCatalog.filter((item) => item.batch === "003");
+  assert.equal(batch003Items.length, 32);
+  for (const category of ["ui", "arrows", "files", "media"]) {
+    const items = batch003Items.filter((item) => item.category === category);
+    assert.equal(items.length, 8, `${category} must contain 8 Batch 003 items`);
+    assert.ok(
+      items.every((item) => item.createdAt === "2026-08-10"),
+      `${category} must belong to Batch 003`,
+    );
+    assert.ok(
+      items.every((item) => Object.isFrozen(item.tags)),
+      `${category} tags must be frozen Batch 003 metadata`,
+    );
+  }
+
+  const batchCounts = originalsCatalog.reduce((counts, item) => {
+    assert.match(item.batch, /^\d{3}$/, `${item.slug} has an invalid batch`);
+    counts[item.batch] = (counts[item.batch] || 0) + 1;
+    return counts;
+  }, {});
+  assert.deepEqual(batchCounts, { "001": 24, "002": 32, "003": 32 });
+
+  const familyItems = originalsCatalog.filter(
+    (item) => item.family === "indent-control",
+  );
+  assert.equal(familyItems.length, 2);
+  assert.deepEqual(
+    familyItems.map((item) => item.slug),
+    ["indent-increase", "indent-decrease"],
+  );
+  assert.ok(familyItems.every((item) => item.batch === "003"));
 
   for (const item of catalog) {
     assert.equal(typeof item.slug, "string");
@@ -209,6 +249,22 @@ test("the Batch 002 176-item release order is frozen for future batches", () => 
   );
 });
 
+test("the Batch 003 208-item release order is frozen for future batches", () => {
+  const digest = createHash("sha256")
+    .update(catalogModule.catalog.map((item) => item.slug).join("\n"))
+    .digest("hex");
+
+  assert.equal(
+    catalogModule.catalog.length,
+    208,
+    "Batch 003 release must contain exactly 208 items",
+  );
+  assert.equal(
+    digest,
+    "8ba93f58aa80bcf9c3d5f19032986dcb7f5d87935cc1b61745c20571d472c54c",
+  );
+});
+
 test("Batch 002 categories are discoverable with bilingual search terms", () => {
   const { catalog } = catalogModule;
   const { filterCatalog } = searchModule;
@@ -225,6 +281,89 @@ test("Batch 002 categories are discoverable with bilingual search terms", () => 
   }
 });
 
+test("Batch 003 categories are discoverable with bilingual search terms", () => {
+  const { catalog } = catalogModule;
+  const { filterCatalog } = searchModule;
+  const batch003Items = catalog.filter((item) => item.batch === "003");
+
+  assert.equal(batch003Items.length, 32);
+  for (const category of ["ui", "arrows", "files", "media"]) {
+    assert.equal(
+      filterCatalog(batch003Items, { category }).length,
+      8,
+      category,
+    );
+    assert.equal(
+      filterCatalog(batch003Items, { category, query: category }).length,
+      8,
+      `${category} English search`,
+    );
+  }
+
+  for (const item of batch003Items) {
+    assert.equal(
+      filterCatalog(batch003Items, {
+        category: item.category,
+        query: item.name,
+      }).some((match) => match.slug === item.slug),
+      true,
+      `${item.slug} English name search`,
+    );
+    assert.equal(
+      filterCatalog(batch003Items, {
+        category: item.category,
+        query: item.nameJa,
+      }).some((match) => match.slug === item.slug),
+      true,
+      `${item.slug} Japanese name search`,
+    );
+  }
+
+  assert.equal(
+    filterCatalog(batch003Items, { query: "file-shield" }).some(
+      (item) => item.slug === "file-shield",
+    ),
+    true,
+    "compound slug terms must remain searchable through metadata",
+  );
+});
+
+test("Batch 003 manifest and registry are frozen, aligned, and unique", () => {
+  const { batch003Catalog } = batch003CatalogModule;
+  const { batch003Icons } = batch003RegistryModule;
+  const registryKeys = Object.keys(batch003Icons);
+  const registryIcons = Object.values(batch003Icons);
+  const displayNames = registryIcons.map((Icon) => Icon.displayName);
+
+  assert.equal(batch003Catalog.length, 32);
+  assert.equal(registryKeys.length, 32);
+  assert.ok(Object.isFrozen(batch003Catalog));
+  assert.ok(Object.isFrozen(batch003Icons));
+  assert.ok(
+    batch003Catalog.every(
+      (item) => Object.isFrozen(item) && Object.isFrozen(item.tags),
+    ),
+    "Batch 003 manifest metadata must be deeply frozen",
+  );
+  assert.deepEqual(
+    registryKeys,
+    batch003Catalog.map((item) => item.slug),
+  );
+  assert.equal(new Set(registryKeys).size, 32);
+  assert.equal(new Set(batch003Catalog.map((item) => item.name)).size, 32);
+  assert.equal(new Set(batch003Catalog.map((item) => item.nameJa)).size, 32);
+  assert.equal(new Set(registryIcons).size, 32);
+  assert.equal(new Set(displayNames).size, 32);
+  assert.ok(
+    displayNames.every(
+      (displayName) =>
+        typeof displayName === "string" &&
+        /^IconPathroom[A-Za-z0-9]+$/.test(displayName),
+    ),
+    "Batch 003 icon display names must be explicit Pathroom names",
+  );
+});
+
 test("Original registry keys and display names are unique", () => {
   const { catalog } = awaitCatalogModule();
   const { pathroomOriginalIcons } = originalsModule;
@@ -234,12 +373,12 @@ test("Original registry keys and display names are unique", () => {
   const registryKeys = Object.keys(pathroomOriginalIcons);
   const displayNames = originalItems.map((item) => item.Icon.displayName);
 
-  assert.equal(registryKeys.length, 56);
+  assert.equal(registryKeys.length, 88);
   assert.deepEqual(
     new Set(originalItems.map((item) => item.slug)),
     new Set(registryKeys),
   );
-  assert.equal(new Set(displayNames).size, 56);
+  assert.equal(new Set(displayNames).size, 88);
 });
 
 function awaitCatalogModule() {

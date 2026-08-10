@@ -17,6 +17,8 @@ pnpm dev
 ```powershell
 cd site
 pnpm test
+pnpm qa:icons
+$env:VITE_BASE_PATH = "/pathroom/"
 pnpm build
 pnpm test:sites
 pnpm test:pages-base
@@ -35,6 +37,6 @@ GitHub Pagesでは `site/dist/client` だけを公開します。リポジトリ
 - 保存・コピーのフィードバック
 - レスポンシブ表示
 
-掲載中の120アイコンはTabler Icons v3.46.0由来、追加した56アイコンはPATHROOM Originalsの独自制作物で、合計176件です。Tabler IconsはMIT Licenseの条件で配布し、PATHROOM Originalsも [`PATHROOM_ORIGINALS_LICENSE.md`](PATHROOM_ORIGINALS_LICENSE.md) のMIT Licenseで配布しています。初期表示は48件です。第三者ソフトウェアとフォントの著作権表示・ライセンス全文は `THIRD_PARTY_NOTICES.md` を参照してください。
+掲載中の120アイコンはTabler Icons v3.46.0由来、追加した88アイコンはPATHROOM Originalsの独自制作物で、合計208件です。Tabler IconsはMIT Licenseの条件で配布し、PATHROOM Originalsも [`PATHROOM_ORIGINALS_LICENSE.md`](PATHROOM_ORIGINALS_LICENSE.md) のMIT Licenseで配布しています。初期表示は48件です。第三者ソフトウェアとフォントの著作権表示・ライセンス全文は `THIRD_PARTY_NOTICES.md` を参照してください。
 
 1,000件（Tabler Icons 120件 + PATHROOM Originals 880件）までのカテゴリ配分、バッチ順、品質ゲートは [`docs/pathroom-1000-roadmap.md`](docs/pathroom-1000-roadmap.md) にまとめています。

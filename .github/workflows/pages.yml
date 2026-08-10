@@ -48,6 +48,25 @@ jobs:
         working-directory: site
         run: pnpm test
 
+      - name: Generate Batch 003 icon visual QA
+        id: icon_visual_qa
+        continue-on-error: true
+        working-directory: site
+        run: pnpm qa:icons
+
+      - name: Upload Batch 003 icon visual QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pathroom-icon-qa-batch-003-${{ github.sha }}
+          path: site/artifacts/icon-qa/batch-003
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Enforce Batch 003 icon visual QA
+        if: steps.icon_visual_qa.outcome != 'success'
+        run: exit 1
+
       - name: Build
         working-directory: site
         env:

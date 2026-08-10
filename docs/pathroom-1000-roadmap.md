@@ -9,16 +9,16 @@ The 1,000-icon target is composed of:
 - 120 Tabler Icons, kept in their current order and distributed under the Tabler MIT notice.
 - 880 PATHROOM Originals, distributed under the PATHROOM Originals MIT notice.
 
-Batch 002 adds 32 Originals and brings the public catalog to 176 icons: 120 Tabler Icons plus 56 PATHROOM Originals.
+Batch 003 adds 32 Originals and brings the public catalog to 208 icons: 120 Tabler Icons plus 88 PATHROOM Originals.
 
 ## Final Originals allocation
 
-| Category | Final Originals | After Batch 002 | Remaining |
+| Category | Final Originals | After Batch 003 | Remaining |
 | --- | ---: | ---: | ---: |
-| UI | 70 | 6 | 64 |
-| Arrows | 70 | 6 | 64 |
-| Files | 70 | 6 | 64 |
-| Media | 70 | 6 | 64 |
+| UI | 70 | 14 | 56 |
+| Arrows | 70 | 14 | 56 |
+| Files | 70 | 14 | 56 |
+| Media | 70 | 14 | 56 |
 | Communication | 80 | 8 | 72 |
 | People | 72 | 0 | 72 |
 | Devices | 80 | 8 | 72 |
@@ -27,7 +27,7 @@ Batch 002 adds 32 Originals and brings the public catalog to 176 icons: 120 Tabl
 | Commerce | 72 | 8 | 64 |
 | Maps | 72 | 0 | 72 |
 | Time | 72 | 0 | 72 |
-| **Total** | **880** | **56** | **824** |
+| **Total** | **880** | **88** | **792** |
 
 The taxonomy has a hard ceiling of 12 semantic categories. Variations such as direction, state, object family, and industry are represented by tags and family metadata instead of creating more top-level categories.
 
@@ -63,6 +63,7 @@ B26 APGL  B27 FCDE  B28 MST
 The sequence deliberately alternates mature and new categories so a single release does not overfit one visual family. It also reaches each major milestone without rewriting the original 144-item ordering:
 
 - Batch 002: 176 total / 56 Originals.
+- Batch 003: 208 total / 88 Originals.
 - Batch 012: 496 total / 376 Originals.
 - Batch 013: 528 total / 408 Originals.
 - Batch 028: 1,000 total / 880 Originals.
@@ -75,7 +76,7 @@ Every 32-icon batch must include:
 2. Geometry components grouped by semantic category, using the shared 24×24 outline factory.
 3. Registry entries whose key, component `displayName`, and catalog metadata agree.
 4. Automatic validation for safe SVG elements and attributes, path syntax, bounds, primitive limits, well-formed exported SVG, license comments, and full-catalog geometry uniqueness.
-5. A fixed digest proving that all already-published slugs remain in their original standard order. Each release adds its full published baseline digest for the next batch; Batch 002 locks both the original 144 and the new 176-item order.
+5. A fixed digest proving that all already-published slugs remain in their original standard order. Each release adds its full published baseline digest for the next batch; Batch 003 locks the original 144, Batch 002's 176, and the new 208-item order.
 6. Search checks for English, Japanese, category, direct URL state, and back/forward state restoration.
 7. Production, Sites-worker, and GitHub Pages base-path builds before publication.
 
@@ -90,7 +91,7 @@ Names use Title Case. Slugs use lowercase kebab-case and normally follow `object
 - Directional variants are allowed only when they are explicitly registered as one icon family.
 - Starting with Batch 003, new icons are reviewed at 16px, 24px, and 32px against their three nearest existing shapes before publication. Batch 002 is the pilot that establishes the automated and static semantic gates for that workflow.
 
-The exact-duplicate gate is mandatory today. The perceptual similarity report becomes a required CI artifact before Batch 003.
+The exact-duplicate gate and the perceptual similarity report are mandatory CI gates from Batch 003 onward. Generated comparison files are retained as workflow artifacts, while review decisions are committed with render and approval digests so geometry, metadata, thresholds, renderer, neighbor rankings, or flags cannot reuse stale approvals.
 
 ## Scale checkpoints
 

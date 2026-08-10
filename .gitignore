@@ -1,6 +1,7 @@
 site/node_modules/
 site/dist/
 site/.vite/
+site/artifacts/
 .pnpm-store/
 *.log
 .DS_Store
