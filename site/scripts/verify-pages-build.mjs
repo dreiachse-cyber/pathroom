@@ -16,4 +16,21 @@ for (const assetUrl of assetUrls) {
   );
 }
 
-console.log(`Verified ${assetUrls.length} asset URLs against base ${expectedBase}`);
+const steamPromoFiles = [
+  "floating-01-snow-keyart-v2-1600x320.png",
+  "floating-02-crimson-blade-v2-1600x320.png",
+  "floating-03-yokai-night-v2-1600x320.png",
+];
+
+for (const fileName of steamPromoFiles) {
+  await readFile(
+    new URL(
+      `../dist/client/promos/youtou-pixel/${fileName}`,
+      import.meta.url,
+    ),
+  );
+}
+
+console.log(
+  `Verified ${assetUrls.length} asset URLs against base ${expectedBase} and ${steamPromoFiles.length} Steam promotion images`,
+);

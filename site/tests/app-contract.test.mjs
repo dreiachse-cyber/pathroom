@@ -63,3 +63,33 @@ test("every catalog state change resets paging, including collection", async () 
   assert.match(source, /merged\.collection === current\.collection/);
   assert.match(source, /setCollection\(merged\.collection\)/);
 });
+
+test("the floating Steam promotion is base-aware, dismissible, and accessible", async () => {
+  const [source, styles] = await Promise.all([
+    readFile(appUrl, "utf8"),
+    readFile(stylesUrl, "utf8"),
+  ]);
+
+  assert.match(source, /className="floating-steam-ad" aria-label="プロモーション"/);
+  assert.match(source, /aria-label="プロモーションを閉じる"/);
+  assert.match(source, /href=\{STEAM_STORE_URL\}/);
+  assert.match(source, /target="_blank"/);
+  assert.match(source, /rel="noopener noreferrer"/);
+  assert.match(
+    source,
+    /src=\{`\$\{import\.meta\.env\.BASE_URL\}promos\/youtou-pixel\/\$\{steamPromoImage\.fileName\}`\}/,
+  );
+  assert.match(source, /width="1600"[\s\S]*?height="320"/);
+  assert.match(source, /fetchPriority="low"/);
+  assert.match(source, /persistSteamPromoDismissal\(\)/);
+  assert.match(source, /has-floating-steam-ad/);
+
+  assert.match(styles, /\.floating-steam-ad \{[\s\S]*?position: fixed;/);
+  assert.match(styles, /aspect-ratio: 5 \/ 1;/);
+  assert.match(styles, /env\(safe-area-inset-bottom\)/);
+  assert.match(
+    styles,
+    /\.pathroom-app\.has-floating-steam-ad \.action-error \{[\s\S]*?bottom:/,
+  );
+  assert.match(styles, /@media print[\s\S]*?\.floating-steam-ad \{[\s\S]*?display: none/);
+});

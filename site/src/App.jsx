@@ -4,11 +4,18 @@ import {
   IconDownload,
   IconFileText,
   IconSearch,
+  IconX,
 } from "@tabler/icons-react";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/noto-sans-jp";
 import { catalog, categories, collections } from "./catalog.jsx";
 import { filterCatalog, sortCatalog } from "./search.js";
+import {
+  persistSteamPromoDismissal,
+  readSteamPromoState,
+  STEAM_PROMO_IMAGES,
+  STEAM_STORE_URL,
+} from "./steam-promo.js";
 import { serializeSvgMarkup } from "./svg.js";
 
 const PAGE_SIZE = 48;
@@ -79,6 +86,7 @@ export function App() {
   const [actionStatus, setActionStatus] = useState("");
   const [actionError, setActionError] = useState("");
   const [visibleLimit, setVisibleLimit] = useState(PAGE_SIZE);
+  const [steamPromo, setSteamPromo] = useState(readSteamPromoState);
   const searchRef = useRef(null);
   const categoryTabsRef = useRef(null);
   const activeCategoryRef = useRef(null);
@@ -230,8 +238,18 @@ export function App() {
     setActionError(message);
   }
 
+  function dismissSteamPromo() {
+    persistSteamPromoDismissal();
+    setSteamPromo((current) => ({ ...current, visible: false }));
+  }
+
+  const steamPromoImage =
+    STEAM_PROMO_IMAGES[steamPromo.imageIndex] ?? STEAM_PROMO_IMAGES[0];
+
   return (
-    <div className="pathroom-app">
+    <div
+      className={`pathroom-app${steamPromo.visible ? " has-floating-steam-ad" : ""}`}
+    >
       <header className="site-header">
         <a className="brand" href="#top" aria-label="PATHROOM トップ">
           PATHROOM
@@ -244,6 +262,39 @@ export function App() {
           </a>
         </nav>
       </header>
+
+      {steamPromo.visible ? (
+        <aside className="floating-steam-ad" aria-label="プロモーション">
+          <button
+            className="floating-steam-ad-close"
+            type="button"
+            aria-label="プロモーションを閉じる"
+            onClick={dismissSteamPromo}
+          >
+            <IconX aria-hidden="true" size={22} stroke={2.2} />
+          </button>
+          <a
+            className="floating-steam-ad-link"
+            href={STEAM_STORE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="妖刀ピクセル：百鬼潜行のSteamストアページを新しいタブで開く"
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}promos/youtou-pixel/${steamPromoImage.fileName}`}
+              width="1600"
+              height="320"
+              alt=""
+              decoding="async"
+              fetchPriority="low"
+              draggable="false"
+            />
+            <span className="floating-steam-ad-cta" aria-hidden="true">
+              PR · Steamで見る <span>↗</span>
+            </span>
+          </a>
+        </aside>
+      ) : null}
 
       <main id="top" className="catalog-page">
         <section className="catalog-intro" aria-labelledby="catalog-heading">

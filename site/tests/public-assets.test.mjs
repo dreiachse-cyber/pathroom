@@ -8,6 +8,14 @@ const originalsLicenseUrl = new URL(
   import.meta.url,
 );
 const indexUrl = new URL("../index.html", import.meta.url);
+const steamPromoUrls = [
+  "floating-01-snow-keyart-v2-1600x320.png",
+  "floating-02-crimson-blade-v2-1600x320.png",
+  "floating-03-yokai-night-v2-1600x320.png",
+].map(
+  (fileName) =>
+    new URL(`../public/promos/youtou-pixel/${fileName}`, import.meta.url),
+);
 
 test("public third-party notices include the distributed license texts", async () => {
   const notices = await readFile(noticesUrl, "utf8");
@@ -44,4 +52,15 @@ test("the AdSense loader is present once with the required attributes", async ()
   assert.match(adsenseScripts[0], /\basync\b/);
   assert.match(adsenseScripts[0], /client=ca-pub-5535120522674228/);
   assert.match(adsenseScripts[0], /crossorigin="anonymous"/);
+});
+
+test("the three Steam promotion images are valid 1600 by 320 PNG assets", async () => {
+  const images = await Promise.all(steamPromoUrls.map((url) => readFile(url)));
+
+  for (const image of images) {
+    assert.equal(image.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
+    assert.equal(image.toString("ascii", 12, 16), "IHDR");
+    assert.equal(image.readUInt32BE(16), 1600);
+    assert.equal(image.readUInt32BE(20), 320);
+  }
 });
