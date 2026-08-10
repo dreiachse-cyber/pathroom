@@ -6,16 +6,31 @@ export function normalizeSearch(value = "") {
     .trim();
 }
 
-export function filterCatalog(items, { query = "", category = "all" } = {}) {
+export function filterCatalog(
+  items,
+  { query = "", category = "all", collection = "all" } = {},
+) {
   const normalizedQuery = normalizeSearch(query);
   const terms = normalizedQuery.split(" ").filter(Boolean);
+  const isLegacyOriginalsFilter = category === "originals";
+  const semanticCategory = isLegacyOriginalsFilter ? "all" : category;
+  const requestedCollection =
+    collection === "pathroom-originals" ? "originals" : collection;
+  const effectiveCollection =
+    isLegacyOriginalsFilter && requestedCollection === "all"
+      ? "originals"
+      : requestedCollection;
 
   return items.filter((item) => {
+    if (semanticCategory !== "all" && item.category !== semanticCategory) {
+      return false;
+    }
     if (
-      category !== "all" &&
-      (category === "originals"
-        ? item.collection !== "pathroom-originals"
-        : item.category !== category)
+      effectiveCollection !== "all" &&
+      item.collection !==
+        (effectiveCollection === "originals"
+          ? "pathroom-originals"
+          : effectiveCollection)
     ) {
       return false;
     }

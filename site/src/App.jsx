@@ -13,7 +13,15 @@ import { serializeSvgMarkup } from "./svg.js";
 
 const PAGE_SIZE = 48;
 const GITHUB_REPOSITORY_URL = "https://github.com/dreiachse-cyber/pathroom";
-const categoryIds = new Set(categories.map((category) => category.id));
+const semanticCategories = categories.filter(
+  (category) => category.id !== "originals",
+);
+const categoryIds = new Set(semanticCategories.map((category) => category.id));
+const COLLECTION_FILTERS = [
+  { id: "all", label: "すべての素材" },
+  { id: "originals", label: "PATHROOM Originals" },
+];
+const collectionIds = new Set(COLLECTION_FILTERS.map((item) => item.id));
 const collectionCounts = catalog.reduce(
   (counts, item) => ({
     ...counts,
@@ -28,11 +36,24 @@ function catalogSummary() {
 
 function readCatalogState() {
   if (typeof window === "undefined") {
-    return { query: "", category: "all", sort: "featured" };
+    return {
+      query: "",
+      category: "all",
+      collection: "all",
+      sort: "featured",
+    };
   }
 
   const params = new URLSearchParams(window.location.search);
-  const category = params.get("category") || "all";
+  const requestedCategory = params.get("category") || "all";
+  const requestedCollection = params.get("collection") || "all";
+  const isLegacyOriginalsLink = requestedCategory === "originals";
+  const category = isLegacyOriginalsLink ? "all" : requestedCategory;
+  const collection = isLegacyOriginalsLink
+    ? "originals"
+    : requestedCollection === "pathroom-originals"
+      ? "originals"
+      : requestedCollection;
   const requestedSort = params.get("sort");
   const sort = ["name", "newest"].includes(requestedSort)
     ? requestedSort
@@ -41,6 +62,7 @@ function readCatalogState() {
   return {
     query: params.get("q") || "",
     category: categoryIds.has(category) ? category : "all",
+    collection: collectionIds.has(collection) ? collection : "all",
     sort,
   };
 }
@@ -49,6 +71,7 @@ export function App() {
   const initialState = useMemo(readCatalogState, []);
   const [query, setQuery] = useState(initialState.query);
   const [category, setCategory] = useState(initialState.category);
+  const [collection, setCollection] = useState(initialState.collection);
   const [sort, setSort] = useState(initialState.sort);
   const [selectedSlug, setSelectedSlug] = useState("search");
   const [copiedSlug, setCopiedSlug] = useState("");
@@ -62,15 +85,15 @@ export function App() {
   const feedbackTimerRef = useRef(null);
 
   const allResults = useMemo(() => {
-    const filtered = filterCatalog(catalog, { query, category });
+    const filtered = filterCatalog(catalog, { query, category, collection });
     return sortCatalog(filtered, sort);
-  }, [category, query, sort]);
+  }, [category, collection, query, sort]);
 
   const results = allResults.slice(0, visibleLimit);
 
   useEffect(() => {
     setVisibleLimit(PAGE_SIZE);
-  }, [category, query, sort]);
+  }, [category, collection, query, sort]);
 
   useEffect(() => {
     const tabs = categoryTabsRef.current;
@@ -109,6 +132,7 @@ export function App() {
       const next = readCatalogState();
       setQuery(next.query);
       setCategory(next.category);
+      setCollection(next.collection);
       setSort(next.sort);
     };
 
@@ -148,12 +172,14 @@ export function App() {
     const unchanged =
       merged.query === current.query &&
       merged.category === current.category &&
+      merged.collection === current.collection &&
       merged.sort === current.sort;
 
     if (unchanged) return;
 
     setQuery(merged.query);
     setCategory(merged.category);
+    setCollection(merged.collection);
     setSort(merged.sort);
     writeCatalogUrl(merged, push);
   }
@@ -242,12 +268,35 @@ export function App() {
           </label>
 
           <div
+            className="collection-filter"
+            role="group"
+            aria-label="コレクション"
+          >
+            {COLLECTION_FILTERS.map((item) => (
+              <button
+                key={item.id}
+                className={collection === item.id ? "is-active" : ""}
+                type="button"
+                aria-pressed={collection === item.id}
+                onClick={() =>
+                  updateCatalogState(
+                    { collection: item.id },
+                    { push: true },
+                  )
+                }
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <div
             ref={categoryTabsRef}
             className="category-tabs"
             role="group"
-            aria-label="カテゴリ"
+            aria-label="カテゴリ（デスクトップ表示）"
           >
-            {categories.map((item) => (
+            {semanticCategories.map((item) => (
               <button
                 key={item.id}
                 ref={category === item.id ? activeCategoryRef : null}
@@ -262,6 +311,25 @@ export function App() {
               </button>
             ))}
           </div>
+
+          <label className="category-select">
+            <span>カテゴリ</span>
+            <select
+              value={category}
+              onChange={(event) =>
+                updateCatalogState(
+                  { category: event.target.value },
+                  { push: true },
+                )
+              }
+            >
+              {semanticCategories.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </label>
         </section>
 
         <section className="catalog-results" aria-labelledby="result-count">
@@ -328,7 +396,7 @@ export function App() {
                 type="button"
                 onClick={() => {
                   updateCatalogState(
-                    { query: "", category: "all" },
+                    { query: "", category: "all", collection: "all" },
                     { push: true },
                   );
                 }}
@@ -531,7 +599,7 @@ async function writeClipboard(text) {
   }
 }
 
-function writeCatalogUrl({ query, category, sort }, push) {
+function writeCatalogUrl({ query, category, collection, sort }, push) {
   const url = new URL(window.location.href);
   const params = url.searchParams;
 
@@ -539,6 +607,9 @@ function writeCatalogUrl({ query, category, sort }, push) {
   category !== "all"
     ? params.set("category", category)
     : params.delete("category");
+  collection !== "all"
+    ? params.set("collection", collection)
+    : params.delete("collection");
   sort !== "featured" ? params.set("sort", sort) : params.delete("sort");
 
   const nextUrl = `${url.pathname}${params.size ? `?${params}` : ""}${url.hash}`;

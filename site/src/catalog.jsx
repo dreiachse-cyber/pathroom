@@ -123,6 +123,7 @@ import {
 import { pathroomOriginalIcons } from "./icons/pathroom-originals/index.js";
 import { batch002Catalog } from "./icons/pathroom-originals/batch-002-catalog.js";
 import { batch003Catalog } from "./icons/pathroom-originals/batch-003-catalog.js";
+import { batch004Catalog } from "./icons/pathroom-originals/batch-004-catalog.js";
 
 export const collections = {
   tabler: {
@@ -154,7 +155,8 @@ export const categories = [
   { id: "communication", label: "コミュニケーション" },
   { id: "data", label: "データ" },
   { id: "devices", label: "デバイス" },
-  { id: "originals", label: "Originals" },
+  { id: "maps", label: "地図" },
+  { id: "time", label: "時間" },
 ];
 
 export const originalsCatalog = [
@@ -333,6 +335,10 @@ export const originalsCatalog = [
   ...batch003Catalog.map(
     ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
       original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch004Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch),
   ),
 ];
 

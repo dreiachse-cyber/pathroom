@@ -1,6 +1,6 @@
 # PATHROOM design QA
 
-この文書のスクリーンショットとブラウザ操作証跡は、初回公開時の144件版を基準としている。Batch 002の176件版とBatch 003の208件版については末尾の自動受け入れ追補を参照する。
+この文書のスクリーンショットとブラウザ操作証跡は、初回公開時の144件版を基準としている。Batch 002以降の量産版については末尾の自動受け入れ追補を参照する。
 
 ## 対象
 
@@ -138,3 +138,23 @@ Batch 002 result: automated release gates passed
 - Batch 003ではレイアウトとCSSを変更していない。比較artifactはCIで生成・30日保存し、公開リポジトリにはreview判断だけを収録する。
 
 Batch 003 result: automated release gates passed
+
+## Batch 004 automated acceptance addendum
+
+- 公開対象: 120 Tabler Icons + 120 PATHROOM Originals = 240件。
+- 新規Originals: データ、コマース、地図、時間を各8件、計32件。
+- semantic categoryとOriginals collectionを独立したフィルターへ分離し、デスクトップは全カテゴリのタブ、760px以下はコンパクトなselectを使う。旧`?category=originals`は後方互換として維持する。
+- 既存144件・176件・208件の標準順をSHA-256 snapshotで保持し、240件版digest `fd0058975e343f8b3ca94a06f84a5c6e36c65b6f032e621221ae98c0a1e9d1d6`を追加した。
+- 240件すべてでslug・英語名・日本語名・正規化geometryが一意。120 Originalsではregistry key・displayNameも一意。
+- 120 Originalsすべてで24×24、`currentColor`、stroke 2、round cap/join、要素・属性allowlist、path構文、描画境界、primitive上限、XML整形式、ライセンスコメントを検証済み。
+- 新規32件を16px、24px、32pxでrenderし、既存208件から各3近傍を比較するartifactを生成。PNG 300枚、artifact全305ファイル、manifest 304 entries。
+- pHash、content SSIM、名前・タグJaccard、回転・反転の閾値flagは0件。最初のサイズ別レビューで細部密度を指摘した10件を簡略化し、再レビュー後は32件すべてで残存P0・P1・P2なし。
+- 全target・top3近傍の3サイズrender digest `c76b0cf84b6c4519ed1fa7164e6bc154fdbf17b46eff41b8a325f51332350563`をreview JSONへ固定した。
+- renderer、閾値、target metadata、top3関係とmetrics、flag内容をapproval digest `04344ec5929f79ecc47dad674a94aa13f3f19e942b4f48da84480d77e1ed64fd`へ固定した。
+- 通常テスト: 42/42 passed。
+- Sites worker/package tests: 4/4 passed。
+- GitHub Pages base `/pathroom/`: 2 asset URLs passed。
+- production build: passed、6247 modules transformed、generated JS 91.45kB gzip。
+- Batch 004ではフィルター構造を変更したため、URL復元、popstate、desktop tabs、mobile select、collection paging resetをsource-contract testsへ追加した。新しいブラウザ操作スクリーンショットは作成せず、SVG raster artifactと自動検査を公開ゲートにした。
+
+Batch 004 result: automated release gates passed

@@ -11,6 +11,7 @@ const items = [
     name: "Arrow Up",
     nameJa: "上向き矢印",
     category: "arrows",
+    collection: "tabler",
     tags: ["upload", "方向"],
     createdAt: "2026-08-08",
   },
@@ -18,6 +19,7 @@ const items = [
     name: "Search",
     nameJa: "検索",
     category: "ui",
+    collection: "tabler",
     tags: ["find", "虫眼鏡"],
     createdAt: "2026-08-09",
   },
@@ -38,7 +40,7 @@ test("filters categories and returns an empty result safely", () => {
   assert.equal(filterCatalog(items, { query: "unknown" }).length, 0);
 });
 
-test("filters Originals by collection and searches collection terms", () => {
+test("filters semantic categories and collections independently", () => {
   const originals = {
     name: "Sparkles",
     nameJa: "きらめき",
@@ -48,9 +50,57 @@ test("filters Originals by collection and searches collection terms", () => {
     createdAt: "2026-08-09",
   };
 
-  assert.equal(filterCatalog([...items, originals], { category: "originals" }).length, 1);
+  const mixed = [...items, originals];
+
+  assert.equal(filterCatalog(mixed, { collection: "originals" }).length, 1);
+  assert.equal(
+    filterCatalog(mixed, { collection: "pathroom-originals" }).length,
+    1,
+  );
+  assert.equal(
+    filterCatalog(mixed, { category: "ui", collection: "originals" }).length,
+    1,
+  );
+  assert.equal(
+    filterCatalog(mixed, { category: "arrows", collection: "originals" })
+      .length,
+    0,
+  );
+  // Keep old shared links and callers working while new URLs use collection.
+  assert.equal(filterCatalog(mixed, { category: "originals" }).length, 1);
   assert.equal(filterCatalog([originals], { query: "Originals" }).length, 1);
   assert.equal(filterCatalog([originals], { query: "オリジナル" }).length, 1);
+});
+
+test("accepts the Batch 004 maps and time semantic categories", () => {
+  const batch004Items = [
+    {
+      name: "Map Fold",
+      nameJa: "折りたたみ地図",
+      category: "maps",
+      collection: "pathroom-originals",
+      tags: ["route", "地図"],
+      createdAt: "2026-08-10",
+    },
+    {
+      name: "Time Zone",
+      nameJa: "タイムゾーン",
+      category: "time",
+      collection: "pathroom-originals",
+      tags: ["clock", "時間"],
+      createdAt: "2026-08-10",
+    },
+  ];
+
+  assert.equal(filterCatalog(batch004Items, { category: "maps" }).length, 1);
+  assert.equal(filterCatalog(batch004Items, { category: "time" }).length, 1);
+  assert.equal(
+    filterCatalog(batch004Items, {
+      category: "maps",
+      collection: "originals",
+    }).length,
+    1,
+  );
 });
 
 test("searches Batch 003 style categories in English and Japanese", () => {

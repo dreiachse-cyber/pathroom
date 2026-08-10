@@ -5,7 +5,7 @@
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: React/Vite公開版のBatch 003実装・QA完了
+- 状態: React/Vite公開版のBatch 004実装・QA完了
 
 ## 1. 企画の核
 
@@ -93,6 +93,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 | 初回MVP公開 | 144個 | 検索・カテゴリ・詳細・コピー・保存を実用レベルで確認する |
 | Batch 002 | 176個 | 32個単位の量産・検査・公開フローを確立する |
 | Batch 003 | 208個 | サイズ別比較と近似形状の自動ゲートを運用へ組み込む |
+| Batch 004 | 240個 | semantic categoryとOriginals collectionを分離し、モバイルの絞り込みを省スペース化する |
 | 拡張1 | 500個 | 生成、重複検出、レビュー運用を安定させる |
 | 目標 | 1,000個 | 120 Tabler + 880 Originalsの完成カタログに到達する |
 | 拡張2 | 2,000個 | インデックス分割や一覧仮想化の必要性を計測する |
@@ -130,8 +131,8 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 
 ### フローC: URLを共有する
 
-1. 検索・カテゴリを指定する
-2. URLへ`q`や`category`が反映される
+1. 検索・カテゴリ・collectionを指定する
+2. URLへ`q`、`category`、`collection`が反映される
 3. URLを共有すると同じ検索状態が復元される
 
 ### フローD: カテゴリへ直接訪問する
@@ -145,7 +146,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 | URL | 役割 |
 | --- | --- |
 | `/` | サイト紹介、検索、フィルター、アイコン一覧 |
-| `/?q=...&category=...&sort=...` | 共有可能なカタログ状態 |
+| `/?q=...&category=...&collection=...&sort=...` | 共有可能なカタログ状態 |
 | `/THIRD_PARTY_NOTICES.txt` | Tabler Iconsと第三者ソフトウェアのnotice |
 | `/PATHROOM_ORIGINALS_LICENSE.txt` | PATHROOM OriginalsのMIT本文と利用条件 |
 
@@ -154,12 +155,15 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 検索状態には次のクエリを使う。
 
 ```text
-/?q=arrow&category=arrows&sort=name
+/?q=route&category=maps&collection=originals&sort=name
 ```
 
 - `q`: 検索語
 - `category`: カテゴリslug
+- `collection`: `originals`（省略時はすべてのcollection）
 - `sort`: `featured`（省略時）、`name`、`newest`
+
+旧URLの`?category=originals`は後方互換として`collection=originals`へ読み替える。semantic categoryとcollectionは独立して組み合わせられる。
 
 ページ番号は固定URLにせず、初期48件と「さらに表示」で扱う。ブラウザの戻る操作では検索条件とスクロール位置を可能な範囲で復元する。
 
@@ -179,8 +183,8 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 
 1. 短い価値説明と公開アイコン数
 2. 大きな検索欄
-3. カテゴリチップとフィルター
-4. 「208件中48件」のような結果件数と並び順
+3. collectionフィルターとsemantic categoryフィルター
+4. 「240件中48件」のような結果件数と並び順
 5. アイコンカードグリッド
 6. 「さらに表示」
 7. ライセンス要約とフッター
@@ -312,6 +316,12 @@ site/src/icons/pathroom-originals/
   batch-003-media.jsx
   batch-003-catalog.js
   batch-003-registry.js
+  batch-004-data.jsx
+  batch-004-commerce.jsx
+  batch-004-maps.jsx
+  batch-004-time.jsx
+  batch-004-catalog.js
+  batch-004-registry.js
   index.js
 ```
 
@@ -342,7 +352,7 @@ manifestの配列、各item、tags配列をfreezeする。collection、Icon comp
 3. tags（別名を含む）
 4. collection名と「オリジナル」の検索語
 
-categoryは検索文字列とは別のフィルターとして扱い、`originals`だけはsemantic categoryではなくcollectionフィルターとして処理する。
+semantic categoryとcollectionは検索文字列とは別の独立フィルターとして扱う。デスクトップは全カテゴリをタブで直接選択し、モバイルはコンパクトなselectを使う。Originalsはcategoryへ混在させず、collectionフィルターで選択する。
 
 正規化:
 
@@ -492,7 +502,7 @@ MVPでは上限へ近づかない見込みだが、500件へ到達するまで�
 
 - 初期表示は48件を上限にする
 - 一覧は表示対象の検査済みReact SVGだけを描画し、初期48件から段階的に追加する
-- 初回DOMへ208件すべてのSVGを展開しない
+- 初回DOMへ240件すべてのSVGを展開しない
 - 検索照合文字列へgeometryを含めず、メタデータだけを使う
 - 一覧追加は「さらに表示」を基本とする
 - カード寸法をCSSで確保し、追加表示時のレイアウト移動を抑える
@@ -601,7 +611,7 @@ metadata contract
 - 検索状態をURLで再現でき、ブラウザの戻る／進む操作でも条件が復元される
 - 全アイコンでコピーと保存が成功する
 - 表示・コピー・保存が同じ検査済みgeometryとcollection別ライセンス情報を使う
-- 検索・カテゴリ・並び順を含む直接URLで状態が復元される
+- 検索・カテゴリ・collection・並び順を含む直接URLで状態が復元される
 - GitHub Pagesのリポジトリ配下URLでアセットが壊れない
 - モバイル幅320pxからデスクトップまで主要操作が使える
 - Chrome、Edge、Firefox、Safariの現行・1世代前を対象に主要フローを確認する
@@ -621,7 +631,7 @@ metadata contract
 
 PATHROOM Originalsの権利者表記は`Copyright (c) 2026 PATHROOM`で決定した。商用利用・改変・単体販売可、通常利用時の表示上のクレジットは任意、再配布時は著作権表示とMIT本文の同梱が必要である。
 
-現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 88件の計208件を掲載している。最初の48件と既存176件の標準順を維持し、増分表示は48件、96件、144件、192件、208件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
+現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 120件の計240件を掲載している。最初の48件と既存208件の標準順を維持し、増分表示は48件、96件、144件、192件、240件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
 
 ## 22. GitHub公式資料
 
