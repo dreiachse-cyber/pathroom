@@ -90,11 +90,11 @@ test.after(async () => {
   await viteServer?.close();
 });
 
-test("Originals render as safe 24px SVGs and all 144 geometries are unique", () => {
+test("Originals render as safe 24px SVGs and all 176 geometries are unique", () => {
   const { catalog } = catalogModule;
   const hashes = new Map();
 
-  assert.equal(catalog.length, 144);
+  assert.equal(catalog.length, 176);
 
   for (const item of catalog) {
     const markup = renderIcon(item);
@@ -126,7 +126,7 @@ test("Originals render as safe 24px SVGs and all 144 geometries are unique", () 
     }
   }
 
-  assert.equal(hashes.size, 144);
+  assert.equal(hashes.size, 176);
 });
 
 test("path data enforces commands, arity, content, and arc flags", () => {
@@ -251,7 +251,7 @@ test("all Originals serialize as well-formed SVGs with only their own notice", (
     (item) => item.collection === "pathroom-originals",
   );
 
-  assert.equal(originals.length, 24);
+  assert.equal(originals.length, 56);
 
   for (const item of originals) {
     const serialized = serializeSvgMarkup(renderIcon(item), item);

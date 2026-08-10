@@ -16,4 +16,6 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Keep the core interactions real: text search, category filtering, sorting, keyboard focus, SVG copy, and copy-success feedback.
 - Use query parameters for shareable catalog state and base-aware asset URLs so the same build can run under a GitHub Pages repository path.
 - Treat SVG file download as the primary card action and SVG code copy as a secondary action.
-- Keep the current Tabler Icons catalog available under its MIT license and maintain Luna-generated PATHROOM Originals as a clearly separate collection with its own MIT license notice.
+- Keep the current Tabler Icons catalog available under its MIT license and maintain project-produced PATHROOM Originals as a clearly separate collection with its own MIT license notice.
+- Grow the catalog toward 1,000 icons using the batch plan in `../docs/pathroom-1000-roadmap.md`; preserve all previously published slugs and their standard order.
+- Add PATHROOM Originals in frozen batch metadata modules, normally 32 icons per release, and keep category, registry, SVG-safety, license, and full-catalog uniqueness checks mandatory.

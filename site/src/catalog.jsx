@@ -121,6 +121,7 @@ import {
   IconZoomOut,
 } from "@tabler/icons-react";
 import { pathroomOriginalIcons } from "./icons/pathroom-originals/index.js";
+import { batch002Catalog } from "./icons/pathroom-originals/batch-002-catalog.js";
 
 export const collections = {
   tabler: {
@@ -148,6 +149,10 @@ export const categories = [
   { id: "arrows", label: "矢印" },
   { id: "files", label: "ファイル" },
   { id: "media", label: "メディア" },
+  { id: "commerce", label: "コマース" },
+  { id: "communication", label: "コミュニケーション" },
+  { id: "data", label: "データ" },
+  { id: "devices", label: "デバイス" },
   { id: "originals", label: "Originals" },
 ];
 
@@ -320,6 +325,9 @@ export const originalsCatalog = [
     "media",
     ["random", "mix", "ランダム", "再生"],
   ),
+  ...batch002Catalog.map(({ slug, name, nameJa, category, tags, createdAt }) =>
+    original(slug, name, nameJa, category, tags, createdAt),
+  ),
 ];
 
 export const catalog = [
@@ -446,7 +454,7 @@ export const catalog = [
   ...originalsCatalog,
 ];
 
-function original(slug, name, nameJa, category, tags) {
+function original(slug, name, nameJa, category, tags, createdAt = "2026-08-09") {
   return icon(
     slug,
     name,
@@ -454,7 +462,7 @@ function original(slug, name, nameJa, category, tags) {
     category,
     pathroomOriginalIcons[slug],
     tags,
-    "2026-08-09",
+    createdAt,
     "pathroom-originals",
   );
 }

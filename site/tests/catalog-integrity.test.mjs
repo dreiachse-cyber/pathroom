@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
 import { createServer } from "vite";
@@ -9,6 +10,7 @@ const siteRoot = fileURLToPath(new URL("..", import.meta.url));
 let viteServer;
 let catalogModule;
 let originalsModule;
+let searchModule;
 
 test.before(async () => {
   viteServer = await createServer({
@@ -22,6 +24,7 @@ test.before(async () => {
   originalsModule = await viteServer.ssrLoadModule(
     "/src/icons/pathroom-originals/index.js",
   );
+  searchModule = await viteServer.ssrLoadModule("/src/search.js");
 });
 
 test.after(async () => {
@@ -29,18 +32,55 @@ test.after(async () => {
 });
 
 test("the real catalog has the required shape and fixed collection counts", () => {
-  const { catalog, collections, originalsCatalog } = catalogModule;
-  const allowedCategories = new Set(["ui", "arrows", "files", "media"]);
+  const { catalog, categories, collections, originalsCatalog } = catalogModule;
+  const allowedCategories = new Set([
+    "ui",
+    "arrows",
+    "files",
+    "media",
+    "commerce",
+    "communication",
+    "data",
+    "devices",
+  ]);
   const slugs = new Set();
   const normalizedNames = new Set();
 
-  assert.equal(catalog.length, 144);
+  assert.equal(catalog.length, 176);
   assert.equal(catalog.filter((item) => item.collection === "tabler").length, 120);
   assert.equal(
     catalog.filter((item) => item.collection === "pathroom-originals").length,
-    24,
+    56,
   );
-  assert.equal(originalsCatalog.length, 24);
+  assert.equal(originalsCatalog.length, 56);
+  assert.deepEqual(
+    categories.map((category) => category.id),
+    [
+      "all",
+      "ui",
+      "arrows",
+      "files",
+      "media",
+      "commerce",
+      "communication",
+      "data",
+      "devices",
+      "originals",
+    ],
+  );
+
+  for (const category of ["commerce", "communication", "data", "devices"]) {
+    const items = catalog.filter((item) => item.category === category);
+    assert.equal(items.length, 8, `${category} must contain exactly 8 items`);
+    assert.ok(
+      items.every((item) => item.createdAt === "2026-08-10"),
+      `${category} must belong to Batch 002`,
+    );
+    assert.ok(
+      items.every((item) => Object.isFrozen(item.tags)),
+      `${category} tags must be frozen batch metadata`,
+    );
+  }
 
   for (const item of catalog) {
     assert.equal(typeof item.slug, "string");
@@ -137,6 +177,54 @@ test("the first 48 featured items remain unchanged", () => {
   );
 });
 
+test("the complete 144-item public baseline remains unchanged", () => {
+  const digest = createHash("sha256")
+    .update(
+      catalogModule.catalog
+        .slice(0, 144)
+        .map((item) => item.slug)
+        .join("\n"),
+    )
+    .digest("hex");
+
+  assert.equal(
+    digest,
+    "76142ae798654fc3adb74f8c5d09d5a2d074339d813ca2323bc141669ea4b17c",
+  );
+});
+
+test("the Batch 002 176-item release order is frozen for future batches", () => {
+  const digest = createHash("sha256")
+    .update(
+      catalogModule.catalog
+        .slice(0, 176)
+        .map((item) => item.slug)
+        .join("\n"),
+    )
+    .digest("hex");
+
+  assert.equal(
+    digest,
+    "f5714faa89e23b84a8f66ccbf64d9510ed06efa201c59f169bbfb32fde37305b",
+  );
+});
+
+test("Batch 002 categories are discoverable with bilingual search terms", () => {
+  const { catalog } = catalogModule;
+  const { filterCatalog } = searchModule;
+  const expectations = new Map([
+    ["commerce", "コマース"],
+    ["communication", "コミュニケーション"],
+    ["data", "データ"],
+    ["devices", "デバイス"],
+  ]);
+
+  for (const [category, query] of expectations) {
+    assert.equal(filterCatalog(catalog, { category }).length, 8, category);
+    assert.equal(filterCatalog(catalog, { category, query }).length, 8, query);
+  }
+});
+
 test("Original registry keys and display names are unique", () => {
   const { catalog } = awaitCatalogModule();
   const { pathroomOriginalIcons } = originalsModule;
@@ -146,12 +234,12 @@ test("Original registry keys and display names are unique", () => {
   const registryKeys = Object.keys(pathroomOriginalIcons);
   const displayNames = originalItems.map((item) => item.Icon.displayName);
 
-  assert.equal(registryKeys.length, 24);
+  assert.equal(registryKeys.length, 56);
   assert.deepEqual(
     new Set(originalItems.map((item) => item.slug)),
     new Set(registryKeys),
   );
-  assert.equal(new Set(displayNames).size, 24);
+  assert.equal(new Set(displayNames).size, 56);
 });
 
 function awaitCatalogModule() {

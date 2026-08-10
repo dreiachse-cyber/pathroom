@@ -1,5 +1,7 @@
 # PATHROOM design QA
 
+この文書のスクリーンショットとブラウザ操作証跡は、初回公開時の144件版を基準としている。Batch 002の176件版については末尾の自動受け入れ追補を参照する。
+
 ## 対象
 
 - source visual truth: `docs/references/pathroom-selected-home.png`
@@ -49,7 +51,7 @@
 ## Accepted P3 differences
 
 - 参照はコピー操作だけを描いているが、公開版ではユーザーの主用途に合わせて同じ操作行へSVG保存を追加した。カード高、列数、白地中心の密度は維持している。
-- 配布中の144件のうち120件はMITのTabler Iconsで、個々のglyphは参照画像と完全同一ではない。残る24件のPATHROOM Originalsとは、画面上の出典とライセンスを分けている。
+- この撮影時点の144件のうち120件はMITのTabler Iconsで、個々のglyphは参照画像と完全同一ではない。残る24件のPATHROOM Originalsとは、画面上の出典とライセンスを分けている。
 - 参照画像の既定表示「名前順」はカードの提示順と整合しないため、実装ではその提示順を「標準順」と明示した。
 
 ## Interaction QA
@@ -100,3 +102,20 @@
 5. Final accessibility/license pass: 失敗通知の二重読み上げを解消し、React系runtimeとVite由来runtimeのMIT表示を公開noticeへ追加した。
 
 final result: passed
+
+## Batch 002 automated acceptance addendum
+
+- 公開対象: 120 Tabler Icons + 56 PATHROOM Originals = 176件。
+- 新規カテゴリ: コマース、コミュニケーション、データ、デバイスを各8件。
+- 既存144件の標準順はSHA-256 snapshotで固定し、初期48件を含め変更なし。
+- 176件すべてでslug・英語名が一意。56 Originalsではregistry key・displayNameも一意。
+- 176件すべてで正規化geometry hashが一意。
+- 56 Originalsすべてで24×24、`currentColor`、stroke 2、round cap/join、要素・属性allowlist、path構文、描画境界、primitive上限、XML整形式、ライセンスコメントを検証済み。
+- 通常テスト: 23/23 passed。
+- Sites worker/package tests: 4/4 passed。
+- GitHub Pages base `/pathroom/`: 2 asset URLs passed。
+- production build: passed、6235 modules transformed、generated JS 84.10kB gzip。
+- 小サイズでの誤読リスクを静的セマンティック監査し、Pen Tablet、Room Speaker、Data Stream、Language Bubbles、Conversation Swap、Message Pin、Private Channelの7件を再設計した。
+- Batch 002ではレイアウトとCSSを変更していない。新しいブラウザスクリーンショット証跡は作成していない。16/24/32pxの近似比較artifactはBatch 003から必須化する。
+
+Batch 002 result: automated release gates passed

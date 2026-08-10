@@ -1,11 +1,11 @@
 # SVGアイコン配布サイト 設計書
 
-- 文書版: 0.1
+- 文書版: 0.2
 - 作成日: 2026-08-09
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: 選択案1のローカルプロトタイプ実装・QA完了
+- 状態: React/Vite公開版のBatch 002実装・QA完了
 
 ## 1. 企画の核
 
@@ -36,17 +36,17 @@
 | 項目 | 採用案 | 理由 |
 | --- | --- | --- |
 | 公開方式 | GitHub Pages + GitHub Actions | サーバー不要で、検査済みの静的成果物だけを公開できる |
-| サイト生成 | Astro + TypeScriptの静的出力 | 個別アイコンページを静的生成しつつ、検索部分だけを軽く動かせる |
+| サイト生成 | React 19 + Vite 6の静的SPA | 現行の一覧・検索・保存・コピーを単一ドキュメントで軽く配信できる |
 | トップページ | 検索・一覧を兼ねる | ランディングページを挟まず、最短でアイコンを取得できる |
-| URL | 静的ページ + クエリパラメータ | GitHub Pagesで履歴ルーティングの404を避け、検索状態も共有できる |
-| 一覧プレビュー | 外部SVGを`img`で表示 | 大量のSVGを最初からインラインDOMへ展開しない |
-| 詳細プレビュー | 検査済みSVGのみインライン表示 | 色やサイズを試せるようにしつつ、安全性を保つ |
-| 検索 | ビルド時生成JSONをブラウザ内で検索 | 実行時APIやデータベースを不要にする |
-| 初期アイコン様式 | 暫定で24pxアウトライン、単色、`currentColor` | 量産時に統一しやすく、Web実装で扱いやすい。パイロット前に最終確認する |
-| 生成処理 | ローカルまたは非公開CI | Luna/APIキーや未検品SVGを公開サイトへ持ち込まない |
+| URL | 単一ドキュメント + クエリパラメータ | GitHub Pagesで履歴ルーティングの404を避け、検索状態も共有できる |
+| 一覧プレビュー | 検査済みReact SVGコンポーネント | 表示・コピー・保存が同じgeometryを使い、内容差異を防げる |
+| 詳細操作 | カード内のSVG保存 + コードコピー | 一覧の密度を維持しながら主要用途を完了できる |
+| 検索 | 同梱メタデータをブラウザ内で検索 | 実行時APIやデータベースを不要にする |
+| アイコン様式 | 24pxアウトライン、単色、`currentColor` | 量産時に統一しやすく、Web実装で扱いやすい |
+| 制作処理 | ローカルまたは非公開CI | 制作用の秘密情報や未検品SVGを公開サイトへ持ち込まない |
 | 一括配布 | 将来はGitHub Releases | Pagesの容量・帯域を圧迫せず、版ごとのZIPを配布できる |
 
-Astroの採用は設計上の推奨であり、実装開始前に最終確認する。ReactだけのSPAでも主要機能は作れるが、個別ページ、共有URL、検索流入、404対策を考えると静的ページ生成の方が素直である。
+React/Vite SPAを現行の採用構成とする。個別アイコンページや静的生成への移行は、検索流入や共有導線の実測から必要性が確認できた場合だけ別フェーズで判断し、1,000件への量産条件にはしない。
 
 ## 3. MVPの範囲
 
@@ -58,11 +58,9 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 - 検索条件を保持する共有可能なURL
 - SVGコードのコピー
 - `.svg`ファイルのダウンロード
-- アイコンごとの静的な詳細ページ
-- sitemap、robots、ページごとの基本メタデータ
-- 色と表示サイズのプレビュー変更
-- ライセンスページ
-- About／アイコン仕様ページ
+- 単一ページの基本メタデータ
+- ライセンス要約と公開notice
+- About／アイコン仕様のページ内情報
 - モバイル、タブレット、デスクトップ対応
 - キーボード操作とスクリーンリーダー向け通知
 - SVG、メタデータ、リンク、ビルドの自動検査
@@ -82,6 +80,8 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 - 高度な誤字補正、意味検索、AI検索
 - サイト上からのアイコン生成
 - 有料決済
+- アイコンごとの静的な詳細ページ
+- 色と表示サイズのプレビュー変更
 
 「人気順」は計測基盤がなければ根拠を持てないため、MVPでは扱わない。お気に入りはコア導線の検証後に追加し、追加する場合の初期版は`localStorage`だけで完結させる。
 
@@ -90,11 +90,13 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 | 段階 | アイコン数 | 目的 |
 | --- | ---: | --- |
 | パイロット | 24個 | 作風、SVG規格、検査、サイト表示の一連の流れを検証する |
-| MVP公開 | 144個 | 検索・カテゴリ・詳細・コピー・保存を実用レベルで確認する |
+| 初回MVP公開 | 144個 | 検索・カテゴリ・詳細・コピー・保存を実用レベルで確認する |
+| Batch 002 | 176個 | 32個単位の量産・検査・公開フローを確立する |
 | 拡張1 | 500個 | 生成、重複検出、レビュー運用を安定させる |
+| 目標 | 1,000個 | 120 Tabler + 880 Originalsの完成カタログに到達する |
 | 拡張2 | 2,000個 | インデックス分割や一覧仮想化の必要性を計測する |
 
-初期カテゴリは8分類を想定する。
+最終カテゴリは12分類を上限とする。
 
 1. インターフェース
 2. 矢印・方向
@@ -104,6 +106,10 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 6. 人物・アカウント
 7. デバイス
 8. ステータス・通知
+9. データ
+10. コマース
+11. 地図・場所
+12. 時間・日付
 
 ## 5. 主要ユーザーフロー
 
@@ -118,8 +124,8 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 
 1. カテゴリまたは用途タグを選ぶ
 2. 一覧を見比べる
-3. 個別ページを開き、背景色、アイコン色、表示サイズを試す
-4. SVGをダウンロードする
+3. カードの「SVG保存」を押す
+4. 保存開始のフィードバックを確認する
 
 ### フローC: URLを共有する
 
@@ -127,38 +133,34 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 2. URLへ`q`や`category`が反映される
 3. URLを共有すると同じ検索状態が復元される
 
-### フローD: 個別アイコンへ直接訪問する
+### フローD: カテゴリへ直接訪問する
 
-1. 検索エンジンまたは共有リンクから`/icons/{slug}/`へ入る
-2. アイコン、説明、ライセンス要約、コピー／保存操作を確認する
-3. 全一覧へ戻る
+1. 共有リンクから`/?category=communication`のようなURLへ入る
+2. 対応カテゴリと件数が復元される
+3. 検索、保存、コピーをそのまま続ける
 
 ## 6. 情報設計とURL
 
 | URL | 役割 |
 | --- | --- |
 | `/` | サイト紹介、検索、フィルター、アイコン一覧 |
-| `/icons/{slug}/` | 共有・検索流入向けの個別アイコンページ |
-| `/license/` | アイコンとサイトコードのライセンス説明 |
-| `/about/` | 制作方針、SVG仕様、更新方法、問い合わせ先 |
-| `/404.html` | 存在しないページから一覧へ戻す |
+| `/?q=...&category=...&sort=...` | 共有可能なカタログ状態 |
+| `/THIRD_PARTY_NOTICES.txt` | Tabler Iconsと第三者ソフトウェアのnotice |
+| `/PATHROOM_ORIGINALS_LICENSE.txt` | PATHROOM OriginalsのMIT本文と利用条件 |
 
 カテゴリ別の独立ページはMVPでは作らず、`/?category=arrows`のようなフィルターURLで代用する。検索流入やカテゴリ数が増えた段階で`/categories/{slug}/`を静的生成する。
 
 検索状態には次のクエリを使う。
 
 ```text
-/?q=arrow&category=arrows&style=outline&sort=name
+/?q=arrow&category=arrows&sort=name
 ```
 
 - `q`: 検索語
 - `category`: カテゴリslug
-- `style`: `outline`などの様式
 - `sort`: `featured`（省略時）、`name`、`newest`
 
 ページ番号は固定URLにせず、初期48件と「さらに表示」で扱う。ブラウザの戻る操作では検索条件とスクロール位置を可能な範囲で復元する。
-
-`style`は将来の拡張を見越してURLとデータへ持たせるが、公開スタイルが1種類しかない間はフィルターUIを表示しない。
 
 ## 7. 画面設計
 
@@ -177,7 +179,7 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 1. 短い価値説明と公開アイコン数
 2. 大きな検索欄
 3. カテゴリチップとフィルター
-4. 「144件中48件」のような結果件数と並び順
+4. 「176件中48件」のような結果件数と並び順
 5. アイコンカードグリッド
 6. 「さらに表示」
 7. ライセンス要約とフッター
@@ -191,39 +193,28 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 - アイコンプレビュー
 - 英語名
 - 日本語名
-- コピー
-- 個別ページへのリンク
+- SVG保存
+- SVGコードのコピー
+- PATHROOM Originalsだけに表示するcollection badge
 
-カテゴリやタグをすべてカードへ表示すると比較しづらくなるため、詳細画面へ回す。コピー操作はホバー時だけに隠さず、キーボードフォーカス時とタッチ端末でも常に到達可能にする。
+カテゴリやタグをすべてカードへ表示すると比較しづらくなるため、検索メタデータとして保持する。保存とコピーはホバー時だけに隠さず、キーボードフォーカス時とタッチ端末でも常に到達可能にする。
 
 推奨グリッドは`minmax(136px, 1fr)`を基準にし、モバイル2列、タブレット4列前後、デスクトップ6〜8列を目安とする。
 
-### 7.4 個別ページ（MVP）
+### 7.4 カード操作（採用済み）
 
-- 大型プレビュー
-- 背景の明暗切り替え
-- アイコン色
-- 表示サイズ
-- SVGコピー
-- SVGダウンロード
-- コード表示
-- 英語名、日本語名、説明、カテゴリ、タグ、更新日
-- ライセンスの短い要約と詳細ページへのリンク
-- 固有の`title`と`description`
-- canonical URL
-- パンくず
-- 実装例
-- 一覧へ戻る導線
-
-色、背景、サイズの操作には「プレビューのみ」と明記する。コピー／ダウンロードされるSVGは検査済みの原本であり、プレビュー変更を反映しない。線幅変更や変換済みコードの生成は、品質と予測可能性を確認してから追加する。
+- 主操作はラベル付きのSVG保存、補助操作はSVGコードのコピーにする
+- 表示、保存、コピーは同じ検査済みgeometryとcollection別ライセンス情報を使う
+- 成功は`aria-live="polite"`、失敗は可視の`role="alert"`で通知する
+- 保存後も保存buttonへ、Clipboard fallback後もコピーbuttonへフォーカスを戻す
+- 320px幅ではラベルを省略してもaccessible nameを維持する
 
 ### 7.5 クイック詳細ダイアログ（将来）
 
-一覧から離れずに確認する需要が見えた場合、個別ページの中核コンポーネントを再利用して追加する。
+一覧から離れずに大型プレビューを確認する需要が見えた場合に追加する。
 
 - デスクトップでは中央ダイアログ、モバイルではほぼ全画面のシートにする
 - ダイアログを開いてもURLは変更しない
-- 「固有URLを開く」操作だけが個別ページへ遷移する
 - 閉じたときは呼び出し元カードへフォーカスを戻す
 - `Escape`、フォーカストラップ、ブラウザの戻る操作を検証する
 
@@ -303,54 +294,47 @@ Astroの採用は設計上の推奨であり、実装開始前に最終確認す
 
 ## 10. アイコンデータ
 
-SVG本体とメタデータは分離し、同じカテゴリとslugで対応させる。
+Tabler IconsはpackageのReact componentをcatalogへ登録する。PATHROOM Originalsは、geometry component、frozen metadata manifest、slug-to-component registryをバッチ単位で分離し、slugで対応させる。
 
 ```text
-catalog/
-  icons/
-    arrows/
-      arrow-up.svg
-  metadata/
-    arrows/
-      arrow-up.json
+site/src/icons/pathroom-originals/
+  createOriginalIcon.jsx
+  batch-002-commerce.jsx
+  batch-002-communication.jsx
+  batch-002-data.jsx
+  batch-002-devices.jsx
+  batch-002-catalog.js
+  batch-002-registry.js
+  index.js
 ```
 
-メタデータ例:
+Batch 002のメタデータ例:
 
-```json
+```js
 {
-  "$schema": "../../../schemas/icon.schema.json",
-  "slug": "arrow-up",
-  "name": "Arrow Up",
-  "nameJa": "上向き矢印",
-  "aliases": ["up", "upload", "上", "上昇"],
-  "description": "上方向を示す矢印",
-  "category": "arrows",
-  "tags": ["direction", "navigation"],
-  "style": "outline",
-  "viewBox": "0 0 24 24",
-  "strokeWidth": 2,
-  "file": "catalog/icons/arrows/arrow-up.svg",
-  "version": "1.0.0",
-  "createdAt": "2026-08-09",
-  "updatedAt": "2026-08-09"
+  "slug": "checkout-bag",
+  "name": "Checkout Bag",
+  "nameJa": "購入バッグ",
+  "category": "commerce",
+  "tags": ["checkout", "purchase", "commerce", "買い物", "購入", "コマース"],
+  "createdAt": "2026-08-10"
 }
 ```
 
-`fileSize`、要素数、正規化ハッシュなど、機械で確定できる値は手書きせず、検索インデックス生成時に付加する。
+manifestの配列、各item、tags配列をfreezeする。collection、Icon component、ライセンス情報はcatalog統合時に付加し、SVGの要素数・path構文・境界・正規化hashはテスト時にgeometryから算出する。
 
 ## 11. 検索設計
 
-ビルド時にすべてのメタデータを集約し、公開用の軽量な`catalog.json`を生成する。
+`catalog.jsx`がTabler 120件とバッチ別Originals metadataを集約し、ブラウザ内で検索する。別の`catalog.json`や実行時APIは使わない。
 
 検索対象:
 
 1. 英語名
 2. 日本語名
-3. aliases
-4. tags
-5. category
-6. description
+3. tags（別名を含む）
+4. collection名と「オリジナル」の検索語
+
+categoryは検索文字列とは別のフィルターとして扱い、`originals`だけはsemantic categoryではなくcollectionフィルターとして処理する。
 
 正規化:
 
@@ -360,76 +344,64 @@ catalog/
 - 記号区切りを空白へ統一
 - 日本語と英語の代表的な別名はメタデータで補う
 
-優先順位は完全一致、前方一致、名前の部分一致、別名、タグ、説明の順にする。MVPでは外部検索ライブラリを必須にせず、件数と応答時間を計測してから導入する。
+現行検索は、正規化した各語が英語名、日本語名、tags、collection検索語のいずれかへ部分一致するAND検索とし、標準順を維持する。完全一致の重み付けや曖昧検索は、件数と応答時間を計測してから導入する。
 
 検索結果が0件の場合は、入力を失わずに次を表示する。
 
-- フィルター解除
-- 近いカテゴリ
-- アイコン追加要望への導線（導入する場合）
+- 0件であることを示すメッセージ
+- 検索語とカテゴリを一度に戻す「検索条件をクリア」
 
-## 12. 推奨リポジトリ構成
+## 12. 採用済みリポジトリ構成
 
 ```text
 .
 ├─ .github/
 │  └─ workflows/
-│     ├─ validate.yml
 │     └─ pages.yml
-├─ catalog/
-│  ├─ icons/
-│  └─ metadata/
 ├─ docs/
+│  ├─ pathroom-1000-roadmap.md
 │  └─ site-design.md
-├─ public/
-│  └─ static/
-├─ schemas/
-│  └─ icon.schema.json
-├─ scripts/
-│  ├─ build-catalog.ts
-│  ├─ validate-icons.ts
-│  ├─ optimize-icons.ts
-│  └─ render-contact-sheet.ts
-├─ src/
-│  ├─ components/
-│  ├─ generated/
-│  ├─ layouts/
-│  ├─ pages/
-│  │  ├─ icons/[slug].astro
-│  │  ├─ index.astro
-│  │  ├─ about.astro
-│  │  ├─ license.astro
-│  │  └─ 404.astro
-│  └─ styles/
-├─ astro.config.mjs
-├─ package.json
+├─ site/
+│  ├─ public/
+│  ├─ scripts/
+│  ├─ src/
+│  │  ├─ icons/pathroom-originals/
+│  │  ├─ App.jsx
+│  │  ├─ catalog.jsx
+│  │  ├─ search.js
+│  │  └─ svg.js
+│  ├─ tests/
+│  ├─ worker/
+│  ├─ index.html
+│  ├─ package.json
+│  └─ vite.config.mjs
 ├─ README.md
-└─ tsconfig.json
+└─ design-qa.md
 ```
 
-`src/generated/`はスクリプトから再生成できる成果物にし、直接編集しない。公開用SVGはビルド時に最適化・検査済みのものだけを`dist/icons/`へコピーする。
+PATHROOM Originalsは`site/src/icons/pathroom-originals/`へバッチ別に置き、メタデータとregistryもバッチ単位で分割する。公開対象は`site/dist/client`だけで、Sites互換のworker成果物はGitHub Pages artifactへ含めない。
 
-## 13. Lunaを使う生成・検品フロー
+## 13. バッチ制作・検品フロー
 
 ```text
 アイコン候補リスト
-  → Lunaで20〜40個ずつ生成
-  → JSON Schema検査
+  → このプロジェクトスレッドで原則32個ずつ制作
+  → frozen metadata contract検査
   → SVG安全性・構文検査
-  → 規格検査と最適化
-  → 重複検査
-  → PNGコンタクトシート生成
-  → 目視選別
+  → 規格・全catalog geometry重複検査
+  → 静的セマンティック監査
   → catalogへ採用
-  → サイトビルド
+  → unit / Sites / Pages base / production build
 ```
 
-### 生成時に固定するもの
+Batch 003以降は、静的セマンティック監査に加えて16／24／32pxの比較artifactと近似候補レビューを追加する。
+
+### 制作時に固定するもの
 
 - SVG規格全文
 - カテゴリごとの候補名と意味
 - 参考となる合格済みアイコン数点
-- 出力JSONのSchema
+- バッチ別metadata manifestの必須field
 - 1アイコン1用途の原則
 - 禁止要素と最大複雑度
 
@@ -445,9 +417,8 @@ catalog/
 - 描画がキャンバス外へ出ていない
 - 空のSVGではない
 - 要素数・パスデータ量が上限以内
-- SVGO後にも`viewBox`と意味が保たれる
 - 正規化SVGハッシュが既存アイコンと重複しない
-- メタデータがJSON Schemaへ適合する
+- メタデータがcatalog contractへ適合する
 
 ### 目視検査
 
@@ -458,7 +429,7 @@ catalog/
 - 一般的な記号の意味を誤解させない
 - 左右反転や回転で済む派生が不必要に増えていない
 
-自動検査に通ったことをデザイン品質の合格とは見なさない。パイロットでは全件、MVP以降は新規バッチごとにコンタクトシートで確認する。
+自動検査に通ったことをデザイン品質の合格とは見なさない。Batch 002では静的セマンティック監査で小サイズの誤読リスクを修正し、Batch 003以降は新規バッチごとに16／24／32pxの比較artifactを残す。
 
 ## 14. GitHub Pages公開設計
 
@@ -470,7 +441,7 @@ catalog/
 https://{owner}.github.io/{repository}/
 ```
 
-そのため、`/assets/app.js`や`/icons/home.svg`のようなドメインルート固定URLは使わない。Astroの`site`と`base`、または共通URLヘルパーを経由し、次の形態をビルド設定だけで切り替えられるようにする。
+そのため、`/assets/app.js`や`/icons/home.svg`のようなドメインルート固定URLは使わない。Viteの`base`と`import.meta.env.BASE_URL`を経由し、次の形態をビルド設定だけで切り替えられるようにする。
 
 - GitHub Pages: `/{repository}/`
 - 対象プロジェクトへ直接設定したカスタムドメイン: `/`
@@ -479,12 +450,13 @@ https://{owner}.github.io/{repository}/
 ### GitHub Actions
 
 1. 依存関係を固定してインストール
-2. Schema、SVG、リンク、型、アクセシビリティの検査
-3. カタログと静的ページを生成
-4. `dist/`をPages artifactとしてアップロード
-5. `github-pages` environmentへデプロイ
+2. `pnpm test`でmetadata contract、SVG安全性、重複、URL・操作contract、公開noticeを検査
+3. Vite production buildとSites package testを実行
+4. GitHub Pages base pathを検証
+5. `site/dist/client`をPages artifactとしてアップロード
+6. `github-pages` environmentへデプロイ
 
-checkoutを行うジョブには`contents: read`を、公開ジョブにはGitHub Pages公式手順に合わせて`pages: write`と`id-token: write`を与える。公開ジョブはbuildジョブを`needs`で参照し、`github-pages` environmentを使う。生成用のOpenAI APIキーは公開ジョブへ渡さない。
+checkoutを行うジョブには`contents: read`を、公開ジョブにはGitHub Pages公式手順に合わせて`pages: write`と`id-token: write`を与える。公開ジョブはbuildジョブを`needs`で参照し、`github-pages` environmentを使う。公開workflowへ制作・生成用の秘密情報は渡さない。
 
 ### カスタムドメイン
 
@@ -505,20 +477,19 @@ GitHub公式の現行上限を公開パイプラインのガードレールに�
 - デプロイは10分でタイムアウト
 - 公開用リポジトリへ秘密情報や有料配布前の素材を置かない
 
-MVPでは上限へ近づかない見込みだが、`dist/`の容量をCIで記録する。大量のZIPや版別アーカイブはPagesへ複製せず、GitHub Releasesへ分離する。GitHub Pagesはオンライン事業、EC、商取引を主目的とするサイトや商用SaaSのホスト用途には使わない。有料販売を主要機能にする場合は公開基盤を見直す。
+MVPでは上限へ近づかない見込みだが、500件へ到達するまでに`site/dist/client`の容量をCIで記録する。大量のZIPや版別アーカイブはPagesへ複製せず、GitHub Releasesへ分離する。GitHub Pagesはオンライン事業、EC、商取引を主目的とするサイトや商用SaaSのホスト用途には使わない。有料販売を主要機能にする場合は公開基盤を見直す。
 
 ## 15. 性能設計
 
 - 初期表示は48件を上限にする
-- 一覧SVGは`img`と`loading="lazy"`を使う
-- 外部SVGの`currentColor`は親ページから継承されないため、一覧のプレビュー面は常に十分な明暗差が出る固定背景にする
-- 最初から全SVGをインライン化しない
-- 検索インデックスはSVGパスを含めず、メタデータだけにする
+- 一覧は表示対象の検査済みReact SVGだけを描画し、初期48件から段階的に追加する
+- 初回DOMへ176件すべてのSVGを展開しない
+- 検索照合文字列へgeometryを含めず、メタデータだけを使う
 - 一覧追加は「さらに表示」を基本とする
-- 画像の読み込み中にもカード寸法を確保し、レイアウト移動を防ぐ
+- カード寸法をCSSで確保し、追加表示時のレイアウト移動を抑える
 - JavaScriptの初期転送量はgzip後150KB以下を目標にする
 - 1,000個時点で検索入力から結果更新まで100ms以内を目標にする
-- 2,000個を超える前にカテゴリ別インデックス分割と仮想化を再評価する
+- 750件へ到達する前にgeometryの遅延読込を実装し、一覧仮想化を再評価する
 
 ## 16. アクセシビリティ
 
@@ -536,7 +507,7 @@ MVPでは上限へ近づかない見込みだが、`dist/`の容量をCIで記�
 
 ## 17. セキュリティと公開上の注意
 
-- ブラウザからLunaやOpenAI APIを直接呼ばない
+- ブラウザから制作・生成用APIを直接呼ばない
 - APIキー、生成プロンプトの秘密情報、未公開素材を`public/`や`dist/`へ含めない
 - SVGは許可リスト方式で検査し、未知の要素・属性を拒否する
 - 検査前のSVGを`innerHTML`へ挿入しない
@@ -548,21 +519,19 @@ MVPでは上限へ近づかない見込みだが、`dist/`の容量をCIで記�
 
 ## 18. CI品質ゲート
 
-Pull Requestまたは公開前に次を必須化する。
+現在のGitHub Pages workflowは次を公開前に必須化する。
 
 ```text
-format
-  → typecheck
-  → metadata schema
+metadata contract
   → svg security/spec validation
   → duplicate detection
   → unit tests
   → static build
-  → internal link check
-  → accessibility smoke test
+  → Sites package tests
+  → GitHub Pages base-path verification
 ```
 
-デプロイはこれらがすべて成功した場合だけ実行する。生成SVGの目視確認は機械化せず、採用フラグまたはレビュー済みバッチ単位で管理する。
+デプロイはこれらがすべて成功した場合だけ実行する。format、型検査、内部リンク検査、ブラウザ型アクセシビリティsmoke test、サイズ別比較artifactはBatch 003以降のCI拡張候補として管理する。
 
 ## 19. フェーズ計画
 
@@ -577,8 +546,8 @@ format
 
 ### Phase 1: パイロット
 
-- Astro静的サイトの骨格
-- SVG規格とJSON Schema
+- React/Vite静的SPAの骨格
+- SVG規格とmetadata contract test
 - 24アイコン
 - 検査スクリプト
 - 一覧、検索、コピー、保存
@@ -586,8 +555,8 @@ format
 
 ### Phase 2: MVP
 
-- 100個以上、目標144アイコン
-- 個別ページとプレビュー操作
+- 100個以上、初回目標144アイコン
+- 一覧カードでSVG保存とコードコピー
 - カテゴリと並び順
 - ライセンス／About
 - レスポンシブ、アクセシビリティ、SEO
@@ -606,15 +575,23 @@ format
 - 英語UI
 - カテゴリ別ページ
 
+### Phase 4: 1,000件カタログ
+
+- Batch 002〜027を32件、Batch 028を24件として追加
+- PATHROOM Originalsを880件へ拡張
+- バッチ別メタデータ、slug予約台帳、近似形状レポートを運用
+- 500件前後でbundleと検索性能を計測し、750件へ到達する前にgeometryの遅延読込を実装する。一覧仮想化は750件前後で再評価する
+- 詳細な配分とゲートは`pathroom-1000-roadmap.md`に従う
+
 ## 20. MVP完了条件
 
-- 検査済みSVGを100個以上掲載し、目標144個へ到達している
+- 検査済みSVGを100個以上掲載し、初回MVP目標144個へ到達している
 - 英語名、日本語名、別名、タグの各検索ケースが通る
 - NFKC、英字の大小文字、前後空白、複数語、0件、未知のクエリ値を含む検索テストが通る
 - 検索状態をURLで再現でき、ブラウザの戻る／進む操作でも条件が復元される
 - 全アイコンでコピーと保存が成功する
-- 色・背景・サイズのプレビューを変更しても、コピー／保存されるSVGが検査済みの原本と一致する
-- 個別ページを直接開いても404にならない
+- 表示・コピー・保存が同じ検査済みgeometryとcollection別ライセンス情報を使う
+- 検索・カテゴリ・並び順を含む直接URLで状態が復元される
 - GitHub Pagesのリポジトリ配下URLでアセットが壊れない
 - モバイル幅320pxからデスクトップまで主要操作が使える
 - Chrome、Edge、Firefox、Safariの現行・1世代前を対象に主要フローを確認する
@@ -634,7 +611,7 @@ format
 
 PATHROOM Originalsの権利者表記は`Copyright (c) 2026 PATHROOM`で決定した。商用利用・改変・単体販売可、通常利用時の表示上のクレジットは任意、再配布時は著作権表示とMIT本文の同梱が必要である。
 
-現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 24件の計144件を掲載している。最初の48件と標準順を維持し、増分表示は48件、96件、144件の順に展開する。
+現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 56件の計176件を掲載している。最初の48件と既存144件の標準順を維持し、増分表示は48件、96件、144件、176件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
 
 ## 22. GitHub公式資料
 
