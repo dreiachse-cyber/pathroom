@@ -2,11 +2,11 @@
 
 - 文書版: 0.3
 - 作成日: 2026-08-09
-- 更新日: 2026-08-13
+- 更新日: 2026-08-14
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: React/Vite版のBatch 011実装・QA完了
+- 状態: React/Vite版のBatch 011公開・QA完了
 
 ## 1. 企画の核
 

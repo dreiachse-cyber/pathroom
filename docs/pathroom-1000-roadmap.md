@@ -122,27 +122,27 @@ Semantic category filtering is separate from the `Originals` collection filter. 
 
 Communication and Devices each gain eight concepts, while People and Status become active public categories with eight concepts each. The complete 12-category taxonomy is now represented in the catalog without adding another top-level category.
 
-### Batch 006 checkpoint (implementation and QA completed; deployment pending)
+### Batch 006 checkpoint (completed)
 
 People, Status, Maps, and Time each gain eight concepts. The release contains 304 icons in total, including 184 Originals.
 
-### Batch 007 checkpoint (implementation and QA completed; deployment pending)
+### Batch 007 checkpoint (completed)
 
 UI, Arrows, Files, and Media each gain eight concepts. The release contains 336 icons in total, including 216 Originals.
 
-### Batch 008 checkpoint (implementation and QA completed; deployment pending)
+### Batch 008 checkpoint (completed)
 
 Commerce, Status, UI, and Arrows each gain eight concepts. The release contains 368 icons in total, including 248 Originals. Batch 012 uses Communication instead of Commerce so the remaining sequence still reaches the final category allocation exactly.
 
-### Batch 009 checkpoint (implementation and QA completed; deployment pending)
+### Batch 009 checkpoint (completed)
 
 Data, Devices, People, and Maps each gain eight concepts. The release contains 400 icons in total, including 280 Originals.
 
-### Batch 010 checkpoint (implementation and QA completed; deployment pending)
+### Batch 010 checkpoint (completed)
 
 Commerce, Time, Files, and Media each gain eight concepts. The release contains 432 icons in total, including 312 Originals.
 
-### Batch 011 checkpoint (implementation and QA completed; deployment pending)
+### Batch 011 checkpoint (completed)
 
 Communication, People, Files, and Time each gain eight concepts. The current implementation contains 464 icons in total, including 344 Originals.
 

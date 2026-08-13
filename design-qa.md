@@ -204,6 +204,7 @@ Batch 005 result: automated release gates passed
 - production build: passed、6290 modules transformed、generated JS 115.29kB gzip。設計上限150kB gzip以内を維持した。
 - scale report: 464件のカテゴリ／バッチ件数、予約slug、catalog digest、production JS 417,231 bytes（gzip 115,293 bytes）と500回検索ベンチマークを`site/public/catalog-scale-report.json`へ固定した。検索中央値は実行環境で再計測するため、文書では100ms未満の契約だけを固定する。
 - GitHub Pages base `/pathroom/`: 2 asset URLsとSteam promotion画像3件 passed。Sites worker tests 4件 + scale report/package tests 3件、計7/7 passed。
+- GitHub Pages公開版で`catalog-scale-report.json`の464件（Tabler 120 + Originals 344）、Batch 011 release digest、Batch 006〜011の先頭・末尾slugを確認した。
 - 1,000件目標までの残りはPATHROOM Originals 536件。
 
 Batch 006〜011 result: automated release gates passed
