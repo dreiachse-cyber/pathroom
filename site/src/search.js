@@ -38,6 +38,7 @@ export function filterCatalog(
 
     const haystack = normalizeSearch(
       [
+        item.slug,
         item.name,
         item.nameJa,
         item.category,

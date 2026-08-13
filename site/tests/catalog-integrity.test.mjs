@@ -14,6 +14,8 @@ let batch003CatalogModule;
 let batch003RegistryModule;
 let batch004CatalogModule;
 let batch004RegistryModule;
+let batch005CatalogModule;
+let batch005RegistryModule;
 let searchModule;
 
 test.before(async () => {
@@ -40,6 +42,12 @@ test.before(async () => {
   batch004RegistryModule = await viteServer.ssrLoadModule(
     "/src/icons/pathroom-originals/batch-004-registry.js",
   );
+  batch005CatalogModule = await viteServer.ssrLoadModule(
+    "/src/icons/pathroom-originals/batch-005-catalog.js",
+  );
+  batch005RegistryModule = await viteServer.ssrLoadModule(
+    "/src/icons/pathroom-originals/batch-005-registry.js",
+  );
   searchModule = await viteServer.ssrLoadModule("/src/search.js");
 });
 
@@ -56,21 +64,23 @@ test("the real catalog has the required shape and fixed collection counts", () =
     "media",
     "commerce",
     "communication",
+    "people",
     "data",
     "devices",
+    "status",
     "maps",
     "time",
   ]);
   const slugs = new Set();
   const normalizedNames = new Set();
 
-  assert.equal(catalog.length, 240);
+  assert.equal(catalog.length, 272);
   assert.equal(catalog.filter((item) => item.collection === "tabler").length, 120);
   assert.equal(
     catalog.filter((item) => item.collection === "pathroom-originals").length,
-    120,
+    152,
   );
-  assert.equal(originalsCatalog.length, 120);
+  assert.equal(originalsCatalog.length, 152);
   assert.deepEqual(
     categories.map((category) => category.id),
     [
@@ -81,8 +91,10 @@ test("the real catalog has the required shape and fixed collection counts", () =
       "media",
       "commerce",
       "communication",
+      "people",
       "data",
       "devices",
+      "status",
       "maps",
       "time",
     ],
@@ -132,6 +144,21 @@ test("the real catalog has the required shape and fixed collection counts", () =
     );
   }
 
+  const batch005Items = originalsCatalog.filter((item) => item.batch === "005");
+  assert.equal(batch005Items.length, 32);
+  for (const category of ["communication", "people", "devices", "status"]) {
+    const items = batch005Items.filter((item) => item.category === category);
+    assert.equal(items.length, 8, `${category} must contain 8 Batch 005 items`);
+    assert.ok(
+      items.every((item) => item.createdAt === "2026-08-13"),
+      `${category} must belong to Batch 005`,
+    );
+    assert.ok(
+      items.every((item) => Object.isFrozen(item.tags)),
+      `${category} tags must be frozen Batch 005 metadata`,
+    );
+  }
+
   const batchCounts = originalsCatalog.reduce((counts, item) => {
     assert.match(item.batch, /^\d{3}$/, `${item.slug} has an invalid batch`);
     counts[item.batch] = (counts[item.batch] || 0) + 1;
@@ -142,6 +169,7 @@ test("the real catalog has the required shape and fixed collection counts", () =
     "002": 32,
     "003": 32,
     "004": 32,
+    "005": 32,
   });
 
   const familyItems = originalsCatalog.filter(
@@ -299,17 +327,34 @@ test("the Batch 003 208-item release order is frozen for future batches", () => 
 
 test("the Batch 004 240-item release order is frozen for future batches", () => {
   const digest = createHash("sha256")
-    .update(catalogModule.catalog.map((item) => item.slug).join("\n"))
+    .update(
+      catalogModule.catalog
+        .slice(0, 240)
+        .map((item) => item.slug)
+        .join("\n"),
+    )
     .digest("hex");
 
   assert.equal(
-    catalogModule.catalog.length,
+    catalogModule.catalog.slice(0, 240).length,
     240,
     "Batch 004 release must contain exactly 240 items",
   );
   assert.equal(
     digest,
     "fd0058975e343f8b3ca94a06f84a5c6e36c65b6f032e621221ae98c0a1e9d1d6",
+  );
+});
+
+test("the Batch 005 272-item release order is frozen for future batches", () => {
+  const digest = createHash("sha256")
+    .update(catalogModule.catalog.map((item) => item.slug).join("\n"))
+    .digest("hex");
+
+  assert.equal(catalogModule.catalog.length, 272);
+  assert.equal(
+    digest,
+    "19c22da895ea07a67ab3449a1992ec68a30a4b422efa67c06d8aaabe186529a0",
   );
 });
 
@@ -427,6 +472,46 @@ test("Batch 003 categories are discoverable with bilingual search terms", () => 
   );
 });
 
+test("Batch 005 categories and every new slug are discoverable", () => {
+  const { filterCatalog } = searchModule;
+  const batch005Items = catalogModule.catalog.filter(
+    (item) => item.batch === "005",
+  );
+  const expectations = new Map([
+    ["communication", "コミュニケーション"],
+    ["people", "人物"],
+    ["devices", "デバイス"],
+    ["status", "ステータス"],
+  ]);
+
+  assert.equal(batch005Items.length, 32);
+  for (const [category, japaneseQuery] of expectations) {
+    assert.equal(filterCatalog(batch005Items, { category }).length, 8);
+    assert.equal(
+      filterCatalog(batch005Items, {
+        category,
+        collection: "originals",
+        query: japaneseQuery,
+      }).length,
+      8,
+    );
+  }
+
+  for (const item of batch005Items) {
+    for (const query of [item.slug, item.name, item.nameJa]) {
+      assert.equal(
+        filterCatalog(batch005Items, {
+          category: item.category,
+          collection: "originals",
+          query,
+        }).some((match) => match.slug === item.slug),
+        true,
+        `${item.slug} must be searchable with ${query}`,
+      );
+    }
+  }
+});
+
 test("Batch 003 manifest and registry are frozen, aligned, and unique", () => {
   const { batch003Catalog } = batch003CatalogModule;
   const { batch003Icons } = batch003RegistryModule;
@@ -499,6 +584,37 @@ test("Batch 004 manifest and registry are frozen, aligned, and unique", () => {
   );
 });
 
+test("Batch 005 manifest and registry are frozen, aligned, and unique", () => {
+  const { batch005Catalog } = batch005CatalogModule;
+  const { batch005Icons } = batch005RegistryModule;
+  const registryKeys = Object.keys(batch005Icons);
+  const registryIcons = Object.values(batch005Icons);
+  const displayNames = registryIcons.map((Icon) => Icon.displayName);
+
+  assert.equal(batch005Catalog.length, 32);
+  assert.equal(registryKeys.length, 32);
+  assert.ok(Object.isFrozen(batch005Catalog));
+  assert.ok(Object.isFrozen(batch005Icons));
+  assert.ok(
+    batch005Catalog.every(
+      (item) => Object.isFrozen(item) && Object.isFrozen(item.tags),
+    ),
+  );
+  assert.deepEqual(registryKeys, batch005Catalog.map((item) => item.slug));
+  assert.equal(new Set(registryKeys).size, 32);
+  assert.equal(new Set(batch005Catalog.map((item) => item.name)).size, 32);
+  assert.equal(new Set(batch005Catalog.map((item) => item.nameJa)).size, 32);
+  assert.equal(new Set(registryIcons).size, 32);
+  assert.equal(new Set(displayNames).size, 32);
+  assert.ok(
+    displayNames.every(
+      (displayName) =>
+        typeof displayName === "string" &&
+        /^IconPathroom[A-Za-z0-9]+$/.test(displayName),
+    ),
+  );
+});
+
 test("Original registry keys and display names are unique", () => {
   const { catalog } = awaitCatalogModule();
   const { pathroomOriginalIcons } = originalsModule;
@@ -508,12 +624,12 @@ test("Original registry keys and display names are unique", () => {
   const registryKeys = Object.keys(pathroomOriginalIcons);
   const displayNames = originalItems.map((item) => item.Icon.displayName);
 
-  assert.equal(registryKeys.length, 120);
+  assert.equal(registryKeys.length, 152);
   assert.deepEqual(
     new Set(originalItems.map((item) => item.slug)),
     new Set(registryKeys),
   );
-  assert.equal(new Set(displayNames).size, 120);
+  assert.equal(new Set(displayNames).size, 152);
 });
 
 function awaitCatalogModule() {

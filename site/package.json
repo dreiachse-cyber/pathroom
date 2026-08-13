@@ -9,7 +9,7 @@
     "build": "vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test": "node --test --test-concurrency=1 tests/catalog.test.mjs tests/catalog-integrity.test.mjs tests/svg-integrity.test.mjs tests/public-assets.test.mjs tests/app-contract.test.mjs tests/icon-visual-qa.test.mjs tests/steam-promo.test.mjs",
-    "qa:icons": "node scripts/generate-icon-visual-qa.mjs --batch 004 --expected-new 32 --expected-baseline 208",
+    "qa:icons": "node scripts/generate-icon-visual-qa.mjs --batch 005 --expected-new 32 --expected-baseline 240",
     "test:pages-base": "node scripts/verify-pages-build.mjs",
     "test:sites": "node --test tests/sites-worker.test.mjs"
   },

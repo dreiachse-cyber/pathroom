@@ -158,3 +158,24 @@ Batch 003 result: automated release gates passed
 - Batch 004ではフィルター構造を変更したため、URL復元、popstate、desktop tabs、mobile select、collection paging resetをsource-contract testsへ追加した。新しいブラウザ操作スクリーンショットは作成せず、SVG raster artifactと自動検査を公開ゲートにした。
 
 Batch 004 result: automated release gates passed
+
+## Batch 005 automated acceptance addendum
+
+- 公開対象: 120 Tabler Icons + 152 PATHROOM Originals = 272件。
+- 新規Originals: コミュニケーション、人物、デバイス、ステータスを各8件、計32件。人物とステータスを有効化し、12カテゴリすべてがカタログへ揃った。
+- 既存144件・176件・208件・240件の標準順をSHA-256 snapshotで保持し、272件版digest `19c22da895ea07a67ab3449a1992ec68a30a4b422efa67c06d8aaabe186529a0`を追加した。
+- 272件すべてでslug・英語名・日本語名・正規化geometryが一意。152 Originalsではregistry key・displayNameも一意。
+- 152 Originalsすべてで24×24、`currentColor`、stroke 2、round cap/join、要素・属性allowlist、path構文、描画境界、primitive上限、XML整形式、ライセンスコメントを検証済み。
+- 新規32件を16px、24px、32pxでrenderし、既存240件から各3近傍を比較するartifactを生成。PNG 297枚、artifact全302ファイル、manifest 301 entries。
+- pHash、content SSIM、名前・タグJaccard、回転・反転の閾値flagは0件。初回のサイズ別レビューで線の接触や密度を指摘した12件を簡略化し、再レビュー後は32件すべてで残存P0・P1・P2なし。
+- 全target・top3近傍の3サイズrender digest `8bba60b96fc92249ecbf9d78a44cdb6fdd5f22c15aaa2ef961eeed3c7ddc9f76`をreview JSONへ固定した。
+- renderer、閾値、target metadata、top3関係とmetrics、flag内容をapproval digest `e1dd66b74fcd7e6cc1ad58bb0a4886a61653dccda994ee275c84324cbab6444f`へ固定した。
+- 英名・日本語名・タグに加えてslug自体を検索対象へ含め、32件すべてのslug検索と人物・ステータスのURL状態を回帰検査した。
+- 通常テスト: 52/52 passed。
+- icon visual QA: 32/32 passed、reviewed similarity flags 0件。
+- Sites worker/package tests: 4/4 passed。
+- GitHub Pages base `/pathroom/`: 2 asset URLsとSteam promotion画像3件 passed。
+- production build: passed、6254 modules transformed、generated JS 95.81kB gzip。
+- Batch 005ではカタログとカテゴリ選択肢だけを拡張し、既存レイアウト、SVG保存・コピー、ライセンス、AdSense、下部Steam promotionの契約を維持した。
+
+Batch 005 result: automated release gates passed

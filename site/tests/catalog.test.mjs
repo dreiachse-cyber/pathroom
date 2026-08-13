@@ -103,6 +103,34 @@ test("accepts the Batch 004 maps and time semantic categories", () => {
   );
 });
 
+test("accepts the Batch 005 people and status semantic categories", () => {
+  const batch005Items = [
+    {
+      slug: "support-agent",
+      name: "Support Agent",
+      nameJa: "サポート担当者",
+      category: "people",
+      collection: "pathroom-originals",
+      tags: ["support", "人物"],
+      createdAt: "2026-08-13",
+    },
+    {
+      slug: "partial-outage",
+      name: "Partial Outage",
+      nameJa: "部分障害",
+      category: "status",
+      collection: "pathroom-originals",
+      tags: ["outage", "ステータス"],
+      createdAt: "2026-08-13",
+    },
+  ];
+
+  assert.equal(filterCatalog(batch005Items, { category: "people" }).length, 1);
+  assert.equal(filterCatalog(batch005Items, { category: "status" }).length, 1);
+  assert.equal(filterCatalog(batch005Items, { query: "support-agent" }).length, 1);
+  assert.equal(filterCatalog(batch005Items, { query: "partial-outage" }).length, 1);
+});
+
 test("searches Batch 003 style categories in English and Japanese", () => {
   const batch003Items = [
     {

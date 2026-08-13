@@ -20,4 +20,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - Keep the current Tabler Icons catalog available under its MIT license and maintain project-produced PATHROOM Originals as a clearly separate collection with its own MIT license notice.
 - Grow the catalog toward 1,000 icons using the batch plan in `../docs/pathroom-1000-roadmap.md`; preserve all previously published slugs and their standard order.
 - Add PATHROOM Originals in frozen batch metadata modules, normally 32 icons per release, and keep category, registry, SVG-safety, license, and full-catalog uniqueness checks mandatory.
+- Batch 005 completes the 12-category taxonomy by adding People and Status alongside more Communication and Devices icons; preserve the category order defined in `catalog.jsx`.
 - Keep the Demon Blade Pixel Steam promotion as a dismissible bottom banner. Select one of the three supplied 5:1 images per session without auto-rotation, use a base-aware public URL, preserve a 44px close target, and prevent the banner from covering page-end content or fixed error feedback.

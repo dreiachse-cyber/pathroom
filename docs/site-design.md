@@ -5,7 +5,7 @@
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: React/Vite公開版のBatch 004実装・QA完了
+- 状態: React/Vite公開版のBatch 005実装・QA完了
 
 ## 1. 企画の核
 
@@ -94,6 +94,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 | Batch 002 | 176個 | 32個単位の量産・検査・公開フローを確立する |
 | Batch 003 | 208個 | サイズ別比較と近似形状の自動ゲートを運用へ組み込む |
 | Batch 004 | 240個 | semantic categoryとOriginals collectionを分離し、モバイルの絞り込みを省スペース化する |
+| Batch 005 | 272個 | 人物・ステータスを有効化し、12カテゴリすべてを公開カタログへ揃える |
 | 拡張1 | 500個 | 生成、重複検出、レビュー運用を安定させる |
 | 目標 | 1,000個 | 120 Tabler + 880 Originalsの完成カタログに到達する |
 | 拡張2 | 2,000個 | インデックス分割や一覧仮想化の必要性を計測する |
@@ -184,7 +185,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 1. 短い価値説明と公開アイコン数
 2. 大きな検索欄
 3. collectionフィルターとsemantic categoryフィルター
-4. 「240件中48件」のような結果件数と並び順
+4. 「272件中48件」のような結果件数と並び順
 5. アイコンカードグリッド
 6. 「さらに表示」
 7. ライセンス要約とフッター
@@ -322,6 +323,12 @@ site/src/icons/pathroom-originals/
   batch-004-time.jsx
   batch-004-catalog.js
   batch-004-registry.js
+  batch-005-communication.jsx
+  batch-005-people.jsx
+  batch-005-devices.jsx
+  batch-005-status.jsx
+  batch-005-catalog.js
+  batch-005-registry.js
   index.js
 ```
 
@@ -502,7 +509,7 @@ MVPでは上限へ近づかない見込みだが、500件へ到達するまで�
 
 - 初期表示は48件を上限にする
 - 一覧は表示対象の検査済みReact SVGだけを描画し、初期48件から段階的に追加する
-- 初回DOMへ240件すべてのSVGを展開しない
+- 初回DOMへ272件すべてのSVGを展開しない
 - 検索照合文字列へgeometryを含めず、メタデータだけを使う
 - 一覧追加は「さらに表示」を基本とする
 - カード寸法をCSSで確保し、追加表示時のレイアウト移動を抑える
@@ -631,7 +638,7 @@ metadata contract
 
 PATHROOM Originalsの権利者表記は`Copyright (c) 2026 PATHROOM`で決定した。商用利用・改変・単体販売可、通常利用時の表示上のクレジットは任意、再配布時は著作権表示とMIT本文の同梱が必要である。
 
-現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 120件の計240件を掲載している。最初の48件と既存208件の標準順を維持し、増分表示は48件、96件、144件、192件、240件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
+現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 152件の計272件を掲載する。最初の48件と既存240件の標準順を維持し、増分表示は48件、96件、144件、192件、240件、272件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
 
 ## 22. GitHub公式資料
 

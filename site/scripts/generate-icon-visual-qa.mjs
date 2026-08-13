@@ -415,7 +415,7 @@ function buildComparisonHtml(report) {
         name: icon.name,
         nameJa: icon.nameJa,
         assets: icon.assets,
-        metrics: "Current Batch 003 icon",
+        metrics: `Current Batch ${report.batch} icon`,
       },
       ...icon.nearest.map((neighbor, index) => ({
         role: `Existing neighbor ${index + 1}`,
