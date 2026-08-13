@@ -50,16 +50,39 @@ try {
     appType: "custom",
   });
 
-  const { catalog } = await viteServer.ssrLoadModule("/src/catalog.jsx");
-  const targets = catalog.filter(
-    (item) => item.collection === "pathroom-originals" && item.batch === options.batch,
+  const { catalog: completeCatalog } = await viteServer.ssrLoadModule("/src/catalog.jsx");
+  const releaseCount = options.expectedBaseline + options.expectedNew;
+  assert.ok(
+    completeCatalog.length >= releaseCount,
+    `Batch ${options.batch} release boundary exceeds the complete catalog`,
   );
-  const baseline = catalog.filter((item) => !targets.includes(item));
+  const catalog = completeCatalog.slice(0, releaseCount);
+  const baseline = catalog.slice(0, options.expectedBaseline);
+  const targets = catalog.slice(options.expectedBaseline);
 
   assert.equal(
     targets.length,
     options.expectedNew,
     `Batch ${options.batch} must contain ${options.expectedNew} icons`,
+  );
+  assert.ok(
+    targets.every(
+      (item) =>
+        item.collection === "pathroom-originals" && item.batch === options.batch,
+    ),
+    `Batch ${options.batch} targets must be one append-only Originals release`,
+  );
+  assert.equal(
+    completeCatalog.filter((item) => item.batch === options.batch).length,
+    options.expectedNew,
+    `Batch ${options.batch} must occur exactly once in the complete catalog`,
+  );
+  assert.equal(
+    completeCatalog
+      .slice(releaseCount)
+      .filter((item) => item.batch === options.batch).length,
+    0,
+    `Batch ${options.batch} items must not appear after its release boundary`,
   );
   assert.equal(
     baseline.length,

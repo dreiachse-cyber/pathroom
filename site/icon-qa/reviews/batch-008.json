@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 2,
+  "algorithm": "pathroom-dct64-content-ssim-v1",
+  "batch": "008",
+  "renderDigest": "17405ab6223287cdc7fa027e199c338484146487d2ef2830c8ead72044295d31",
+  "approvalDigest": "ec6862e626d7ea055fb88abc575b458244123a643d142fcf3c0593d71ae984f8",
+  "icons": [
+    {
+      "slug": "shopping-basket",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "gift-card",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "contactless-payment",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "split-payment",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "price-comparison",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "inventory-shelf",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "tax-document",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "currency-exchange",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "queued-item",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "processing-stage",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "sync-conflict",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "needs-attention",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "escalated-issue",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "validation-failed",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "dependency-waiting",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "archived-state",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "context-menu",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "tooltip-popup",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "bottom-sheet",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "marquee-select",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "floating-action-button",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "chip-input",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "skeleton-loader",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "scrollable-panel",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "jump-to-start",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "jump-to-end",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "spread-vertical",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "compress-horizontal",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "fork-left",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "fork-right",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "zigzag-rise",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "zigzag-fall",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    }
+  ],
+  "pairs": [
+    {
+      "key": "fork-left::fork-right",
+      "firstSlug": "fork-left",
+      "secondSlug": "fork-right",
+      "reasons": [
+        "phash",
+        "content-ssim"
+      ],
+      "decision": "accept-distinct",
+      "rationale": "This intentional directional family shares structure while its orientation remains visibly distinct at every reviewed size."
+    },
+    {
+      "key": "jump-to-end::jump-to-start",
+      "firstSlug": "jump-to-start",
+      "secondSlug": "jump-to-end",
+      "reasons": [
+        "phash",
+        "content-ssim"
+      ],
+      "decision": "accept-distinct",
+      "rationale": "This intentional directional family shares structure while its orientation remains visibly distinct at every reviewed size."
+    },
+    {
+      "key": "spread-horizontal::spread-vertical",
+      "firstSlug": "spread-vertical",
+      "secondSlug": "spread-horizontal",
+      "reasons": [
+        "content-ssim"
+      ],
+      "decision": "accept-distinct",
+      "rationale": "This intentional directional family shares structure while its orientation remains visibly distinct at every reviewed size."
+    },
+    {
+      "key": "zigzag-fall::zigzag-rise",
+      "firstSlug": "zigzag-rise",
+      "secondSlug": "zigzag-fall",
+      "reasons": [
+        "phash",
+        "content-ssim"
+      ],
+      "decision": "accept-distinct",
+      "rationale": "This intentional directional family shares structure while its orientation remains visibly distinct at every reviewed size."
+    }
+  ]
+}

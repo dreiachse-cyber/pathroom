@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 2,
+  "algorithm": "pathroom-dct64-content-ssim-v1",
+  "batch": "009",
+  "renderDigest": "6ba0884a874ac5af42ff5c85b2561f38e944a452363d59782b663c2ebd5a0b91",
+  "approvalDigest": "f375617efe5d433afed45c1254a541c8155970107ca478e32735b8fb38b5d8a6",
+  "icons": [
+    {
+      "slug": "data-warehouse",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "data-partition",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "data-aggregation",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "missing-value",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "data-retention",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "dataset-import",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "dataset-export",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "data-compression",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "wireless-earbuds",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "webcam",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "external-drive",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "usb-hub",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "smart-doorbell",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "smart-glasses",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "portable-printer",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "smart-ring",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "person-waving",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "person-meditating",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "person-cycling",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "swimmer",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "chef",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "firefighter",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "white-cane-user",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "graduate",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "map-legend",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "offline-map",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "bike-route",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "parking-location",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "campsite-location",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "scenic-viewpoint",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "road-closure",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "airport-runway",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    }
+  ],
+  "pairs": []
+}

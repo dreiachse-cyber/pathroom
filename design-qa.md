@@ -179,3 +179,31 @@ Batch 004 result: automated release gates passed
 - Batch 005ではカタログとカテゴリ選択肢だけを拡張し、既存レイアウト、SVG保存・コピー、ライセンス、AdSense、下部Steam promotionの契約を維持した。
 
 Batch 005 result: automated release gates passed
+
+## Batch 006〜011 automated acceptance addendum
+
+- 追加対象: Batch 006〜011の各32件、合計192 PATHROOM Originals。内訳はBatch 006が人物・ステータス・地図・時間、Batch 007がUI・矢印・ファイル・メディア、Batch 008がコマース・ステータス・UI・矢印、Batch 009がデータ・デバイス・人物・地図、Batch 010がコマース・時間・ファイル・メディア、Batch 011がコミュニケーション・人物・ファイル・時間を各8件。
+- 受け入れ対象: 120 Tabler Icons + 344 PATHROOM Originals = 464件。Batch 005の272件から192件増加した。
+- Originalsのカテゴリ配分: UI 30、矢印 30、ファイル 38、メディア 30、コマース 32、コミュニケーション 24、人物 32、データ 24、デバイス 24、ステータス 24、地図 24、時間 32。合計344件。
+- 新規32件をバッチごとに16px、24px、32pxでrenderし、各targetの既存カタログに対するnearest候補とpHash／content SSIM／名前・タグ類似度／回転・反転のthreshold flagをレビューした。比較artifactの個数やrender／approval digestは、この一括追補では固定値として記録しない。
+- 464件すべてでslug・英語名・日本語名・正規化geometryが一意。344 Originalsではregistry key・component `displayName`も一意。
+- 344 Originalsすべてで24×24、`currentColor`、stroke 2、round cap/join、要素・属性allowlist、path構文、描画境界、primitive上限、XML整形式、collection別ライセンスコメントを検証済み。
+- 既存144件・176件・208件・240件・272件の標準順を保持したまま、各release境界を次のSHA-256 catalog-order digestで固定した。
+
+| Release | Catalog | Originals | SHA-256 catalog-order digest |
+| --- | ---: | ---: | --- |
+| Batch 006 | 304 | 184 | `7fee2b83e2c2d46024a50da617bd8b014d7dc82a5f9367c03c012d58e82b6a49` |
+| Batch 007 | 336 | 216 | `77cc018846bada4feefd24f7e69b92bd25dadd85f19a5a2ddba0a7907ef18207` |
+| Batch 008 | 368 | 248 | `bbee58bb37c4a10f1af05f1ec8dbcd3e78c1c01c7b42c61279fe095e8550a7cb` |
+| Batch 009 | 400 | 280 | `21ee0364b72597120661ccb48d6f6e4b84181e971d3b034145a3481f028b7043` |
+| Batch 010 | 432 | 312 | `92aadf35ed4ecc547c1a1387b399a0e4cd4e937e74595407645904578d2d9eb2` |
+| Batch 011 | 464 | 344 | `c522bc80a0ee75e7d2fb90253e4aa31b618b7aa06428f4f6fc2c80d9825fa4a9` |
+
+- 通常テスト: scale report／予約slug台帳の2契約を含む72/72 passed。
+- icon visual QA: Batch 006〜011の各32/32がpassed。reviewed similarity flagsは順に2件、7件、4件、0件、1件、2件で、全件を16px・24px・32pxと近傍形状で再確認して`accept-distinct`へ固定した。
+- production build: passed、6290 modules transformed、generated JS 115.29kB gzip。設計上限150kB gzip以内を維持した。
+- scale report: 464件のカテゴリ／バッチ件数、予約slug、catalog digest、production JS 417,231 bytes（gzip 115,293 bytes）と500回検索ベンチマークを`site/public/catalog-scale-report.json`へ固定した。検索中央値は実行環境で再計測するため、文書では100ms未満の契約だけを固定する。
+- GitHub Pages base `/pathroom/`: 2 asset URLsとSteam promotion画像3件 passed。Sites worker tests 4件 + scale report/package tests 3件、計7/7 passed。
+- 1,000件目標までの残りはPATHROOM Originals 536件。
+
+Batch 006〜011 result: automated release gates passed

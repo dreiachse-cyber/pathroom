@@ -48,22 +48,22 @@ jobs:
         working-directory: site
         run: pnpm test
 
-      - name: Generate Batch 005 icon visual QA
+      - name: Generate Batch 006-011 icon visual QA
         id: icon_visual_qa
         continue-on-error: true
         working-directory: site
         run: pnpm qa:icons
 
-      - name: Upload Batch 005 icon visual QA
+      - name: Upload Batch 006-011 icon visual QA
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pathroom-icon-qa-batch-005-${{ github.sha }}
-          path: site/artifacts/icon-qa/batch-005
+          name: pathroom-icon-qa-batches-006-011-${{ github.sha }}
+          path: site/artifacts/icon-qa
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Enforce Batch 005 icon visual QA
+      - name: Enforce Batch 006-011 icon visual QA
         if: steps.icon_visual_qa.outcome != 'success'
         run: exit 1
 
@@ -72,6 +72,10 @@ jobs:
         env:
           VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
         run: pnpm build
+
+      - name: Record catalog scale report
+        working-directory: site
+        run: pnpm report:scale
 
       - name: Verify packaged site
         working-directory: site

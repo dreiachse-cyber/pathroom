@@ -1,11 +1,12 @@
 # SVGアイコン配布サイト 設計書
 
-- 文書版: 0.2
+- 文書版: 0.3
 - 作成日: 2026-08-09
+- 更新日: 2026-08-13
 - 公開先: GitHub Pages
 - サイト名: PATHROOM
 - 選択ビジュアル: `docs/references/pathroom-selected-home.png`
-- 状態: React/Vite公開版のBatch 005実装・QA完了
+- 状態: React/Vite版のBatch 011実装・QA完了
 
 ## 1. 企画の核
 
@@ -95,6 +96,12 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 | Batch 003 | 208個 | サイズ別比較と近似形状の自動ゲートを運用へ組み込む |
 | Batch 004 | 240個 | semantic categoryとOriginals collectionを分離し、モバイルの絞り込みを省スペース化する |
 | Batch 005 | 272個 | 人物・ステータスを有効化し、12カテゴリすべてを公開カタログへ揃える |
+| Batch 006 | 304個 | 人物・ステータス・地図・時間を各8件拡張する |
+| Batch 007 | 336個 | UI・矢印・ファイル・メディアを各8件拡張する |
+| Batch 008 | 368個 | コマース・ステータス・UI・矢印を各8件拡張する |
+| Batch 009 | 400個 | データ・デバイス・人物・地図を各8件拡張する |
+| Batch 010 | 432個 | コマース・時間・ファイル・メディアを各8件拡張する |
+| Batch 011 | 464個 | コミュニケーション・人物・ファイル・時間を各8件拡張する |
 | 拡張1 | 500個 | 生成、重複検出、レビュー運用を安定させる |
 | 目標 | 1,000個 | 120 Tabler + 880 Originalsの完成カタログに到達する |
 | 拡張2 | 2,000個 | インデックス分割や一覧仮想化の必要性を計測する |
@@ -114,13 +121,15 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 11. 地図・場所
 12. 時間・日付
 
+Batch 011完了時点のPATHROOM Originals 344件の配分は、UI 30、矢印 30、ファイル 38、メディア 30、コマース 32、コミュニケーション 24、人物 32、データ 24、デバイス 24、ステータス 24、地図 24、時間 32である。1,000件目標までの残りは536件とする。
+
 ## 5. 主要ユーザーフロー
 
 ### フローA: 名前が分かっている
 
 1. トップページの検索欄へ「search」「虫眼鏡」などを入力する
 2. 候補を一覧で比較する
-3. カードの「SVGをコピー」を押す
+3. カードの「コード」を押す
 4. `aria-live`と画面上の表示でコピー成功を確認する
 
 ### フローB: 用途から探す
@@ -185,7 +194,7 @@ React/Vite SPAを現行の採用構成とする。個別アイコンページや
 1. 短い価値説明と公開アイコン数
 2. 大きな検索欄
 3. collectionフィルターとsemantic categoryフィルター
-4. 「272件中48件」のような結果件数と並び順
+4. 「464件中48件」のような結果件数と並び順
 5. アイコンカードグリッド
 6. 「さらに表示」
 7. ライセンス要約とフッター
@@ -329,6 +338,42 @@ site/src/icons/pathroom-originals/
   batch-005-status.jsx
   batch-005-catalog.js
   batch-005-registry.js
+  batch-006-people.jsx
+  batch-006-status.jsx
+  batch-006-maps.jsx
+  batch-006-time.jsx
+  batch-006-catalog.js
+  batch-006-registry.js
+  batch-007-ui.jsx
+  batch-007-arrows.jsx
+  batch-007-files.jsx
+  batch-007-media.jsx
+  batch-007-catalog.js
+  batch-007-registry.js
+  batch-008-commerce.jsx
+  batch-008-status.jsx
+  batch-008-ui.jsx
+  batch-008-arrows.jsx
+  batch-008-catalog.js
+  batch-008-registry.js
+  batch-009-data.jsx
+  batch-009-devices.jsx
+  batch-009-people.jsx
+  batch-009-maps.jsx
+  batch-009-catalog.js
+  batch-009-registry.js
+  batch-010-commerce.jsx
+  batch-010-time.jsx
+  batch-010-files.jsx
+  batch-010-media.jsx
+  batch-010-catalog.js
+  batch-010-registry.js
+  batch-011-communication.jsx
+  batch-011-people.jsx
+  batch-011-files.jsx
+  batch-011-time.jsx
+  batch-011-catalog.js
+  batch-011-registry.js
   index.js
 ```
 
@@ -356,8 +401,9 @@ manifestの配列、各item、tags配列をfreezeする。collection、Icon comp
 
 1. 英語名
 2. 日本語名
-3. tags（別名を含む）
-4. collection名と「オリジナル」の検索語
+3. slug
+4. tags（別名を含む）
+5. collection名と「オリジナル」の検索語
 
 semantic categoryとcollectionは検索文字列とは別の独立フィルターとして扱う。デスクトップは全カテゴリをタブで直接選択し、モバイルはコンパクトなselectを使う。Originalsはcategoryへ混在させず、collectionフィルターで選択する。
 
@@ -369,7 +415,7 @@ semantic categoryとcollectionは検索文字列とは別の独立フィルタ�
 - 記号区切りを空白へ統一
 - 日本語と英語の代表的な別名はメタデータで補う
 
-現行検索は、正規化した各語が英語名、日本語名、tags、collection検索語のいずれかへ部分一致するAND検索とし、標準順を維持する。完全一致の重み付けや曖昧検索は、件数と応答時間を計測してから導入する。
+現行検索は、正規化した各語が英語名、日本語名、slug、tags、collection検索語のいずれかへ部分一致するAND検索とし、標準順を維持する。完全一致の重み付けや曖昧検索は、件数と応答時間を計測してから導入する。
 
 検索結果が0件の場合は、入力を失わずに次を表示する。
 
@@ -509,7 +555,7 @@ MVPでは上限へ近づかない見込みだが、500件へ到達するまで�
 
 - 初期表示は48件を上限にする
 - 一覧は表示対象の検査済みReact SVGだけを描画し、初期48件から段階的に追加する
-- 初回DOMへ272件すべてのSVGを展開しない
+- 初回DOMへ464件すべてのSVGを展開しない
 - 検索照合文字列へgeometryを含めず、メタデータだけを使う
 - 一覧追加は「さらに表示」を基本とする
 - カード寸法をCSSで確保し、追加表示時のレイアウト移動を抑える
@@ -605,6 +651,7 @@ metadata contract
 ### Phase 4: 1,000件カタログ
 
 - Batch 002〜027を32件、Batch 028を24件として追加
+- Batch 002〜011の増分320件を実装・QA完了し、初回24件と合わせてOriginals 344件へ到達。Batch 012以降を同じ契約で継続する
 - PATHROOM Originalsを880件へ拡張
 - バッチ別メタデータ、slug予約台帳、近似形状レポートを運用
 - 500件前後でbundleと検索性能を計測し、750件へ到達する前にgeometryの遅延読込を実装する。一覧仮想化は750件前後で再評価する
@@ -638,7 +685,7 @@ metadata contract
 
 PATHROOM Originalsの権利者表記は`Copyright (c) 2026 PATHROOM`で決定した。商用利用・改変・単体販売可、通常利用時の表示上のクレジットは任意、再配布時は著作権表示とMIT本文の同梱が必要である。
 
-現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 152件の計272件を掲載する。最初の48件と既存240件の標準順を維持し、増分表示は48件、96件、144件、192件、240件、272件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
+現在の実装は、Tabler Icons由来の120件とPATHROOM Originals 344件の計464件を掲載する。最初の48件と既存432件までの標準順を維持し、増分表示は48件、96件、144件、192件、240件、288件、336件、384件、432件、464件の順に展開する。1,000件までの詳細は`pathroom-1000-roadmap.md`を参照する。
 
 ## 22. GitHub公式資料
 

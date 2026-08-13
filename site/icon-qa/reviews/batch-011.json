@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 2,
+  "algorithm": "pathroom-dct64-content-ssim-v1",
+  "batch": "011",
+  "renderDigest": "be2ea3863c11acd21166a87660f2597050a9351e40b8ef815fededbf29c0cecd",
+  "approvalDigest": "6677485ffabdd35275addea4d7695fb0057580db979139ba665e1e7fc2e3a6a2",
+  "icons": [
+    { "slug": "mention-message", "decision": "pass" },
+    { "slug": "unread-thread", "decision": "pass" },
+    { "slug": "encrypted-message", "decision": "pass" },
+    { "slug": "group-call", "decision": "pass" },
+    { "slug": "voicemail-inbox", "decision": "pass" },
+    { "slug": "reaction-message", "decision": "pass" },
+    { "slug": "channel-invite", "decision": "pass" },
+    { "slug": "message-forward", "decision": "pass" },
+    { "slug": "teacher", "decision": "pass" },
+    { "slug": "police-officer", "decision": "pass" },
+    { "slug": "construction-surveyor", "decision": "pass" },
+    { "slug": "delivery-rider", "decision": "pass" },
+    { "slug": "musician", "decision": "pass" },
+    { "slug": "photographer", "decision": "pass" },
+    { "slug": "gardener", "decision": "pass" },
+    { "slug": "scientist", "decision": "pass" },
+    { "slug": "file-metadata", "decision": "pass" },
+    { "slug": "document-annotation", "decision": "pass" },
+    { "slug": "folder-rules", "decision": "pass" },
+    { "slug": "file-checksum", "decision": "pass" },
+    { "slug": "document-split", "decision": "pass" },
+    { "slug": "linked-documents", "decision": "pass" },
+    { "slug": "file-owner", "decision": "pass" },
+    { "slug": "watched-folder", "decision": "pass" },
+    { "slug": "business-hours", "decision": "pass" },
+    { "slug": "overtime-hours", "decision": "pass" },
+    { "slug": "time-off", "decision": "pass" },
+    { "slug": "booking-slot", "decision": "pass" },
+    { "slug": "queue-wait-time", "decision": "pass" },
+    { "slug": "meeting-duration", "decision": "pass" },
+    { "slug": "travel-time", "decision": "pass" },
+    { "slug": "break-timer", "decision": "pass" }
+  ],
+  "pairs": [
+    {
+      "key": "document-signature::file-checksum",
+      "firstSlug": "file-checksum",
+      "secondSlug": "document-signature",
+      "reasons": ["phash"],
+      "decision": "accept-distinct",
+      "rationale": "The shared document outline is expected; the checksum grid remains clearly distinct from the handwritten signature stroke at every reviewed size."
+    },
+    {
+      "key": "file-checksum::file-image",
+      "firstSlug": "file-checksum",
+      "secondSlug": "file-image",
+      "reasons": ["phash"],
+      "decision": "accept-distinct",
+      "rationale": "The shared document outline is expected; the checksum grid remains clearly distinct from the mountain-and-sun image mark at every reviewed size."
+    }
+  ]
+}

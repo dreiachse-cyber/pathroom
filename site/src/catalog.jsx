@@ -125,6 +125,12 @@ import { batch002Catalog } from "./icons/pathroom-originals/batch-002-catalog.js
 import { batch003Catalog } from "./icons/pathroom-originals/batch-003-catalog.js";
 import { batch004Catalog } from "./icons/pathroom-originals/batch-004-catalog.js";
 import { batch005Catalog } from "./icons/pathroom-originals/batch-005-catalog.js";
+import { batch006Catalog } from "./icons/pathroom-originals/batch-006-catalog.js";
+import { batch007Catalog } from "./icons/pathroom-originals/batch-007-catalog.js";
+import { batch008Catalog } from "./icons/pathroom-originals/batch-008-catalog.js";
+import { batch009Catalog } from "./icons/pathroom-originals/batch-009-catalog.js";
+import { batch010Catalog } from "./icons/pathroom-originals/batch-010-catalog.js";
+import { batch011Catalog } from "./icons/pathroom-originals/batch-011-catalog.js";
 
 export const collections = {
   tabler: {
@@ -346,6 +352,30 @@ export const originalsCatalog = [
   ...batch005Catalog.map(
     ({ slug, name, nameJa, category, tags, createdAt, batch }) =>
       original(slug, name, nameJa, category, tags, createdAt, batch),
+  ),
+  ...batch006Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch007Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch008Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch009Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch010Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
+  ),
+  ...batch011Catalog.map(
+    ({ slug, name, nameJa, category, tags, createdAt, batch, family }) =>
+      original(slug, name, nameJa, category, tags, createdAt, batch, family),
   ),
 ];
 

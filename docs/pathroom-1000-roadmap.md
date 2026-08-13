@@ -2,32 +2,32 @@
 
 ## Goal
 
-PATHROOM will grow from the initial public catalog of 144 icons to 1,000 icons while preserving the existing download, copy, search, URL-state, accessibility, licensing, and GitHub Pages behavior.
+PATHROOM has grown from the initial public catalog of 144 icons to the current 464-icon implementation and will continue to 1,000 icons while preserving the existing download, copy, search, URL-state, accessibility, licensing, and GitHub Pages behavior.
 
 The 1,000-icon target is composed of:
 
 - 120 Tabler Icons, kept in their current order and distributed under the Tabler MIT notice.
 - 880 PATHROOM Originals, distributed under the PATHROOM Originals MIT notice.
 
-Batch 005 adds 32 Originals and brings the public catalog to 272 icons: 120 Tabler Icons plus 152 PATHROOM Originals.
+Batch 006 through Batch 011 add 32 Originals each, or 192 icons in total. The current catalog contains 464 icons: 120 Tabler Icons plus 344 PATHROOM Originals. Another 536 Originals remain to reach the 1,000-icon target.
 
 ## Final Originals allocation
 
-| Category | Final Originals | After Batch 005 | Remaining |
+| Category | Final Originals | Current after Batch 011 | Remaining |
 | --- | ---: | ---: | ---: |
-| UI | 70 | 14 | 56 |
-| Arrows | 70 | 14 | 56 |
-| Files | 70 | 14 | 56 |
-| Media | 70 | 14 | 56 |
-| Communication | 80 | 16 | 64 |
-| People | 72 | 8 | 64 |
-| Devices | 80 | 16 | 64 |
-| Status | 80 | 8 | 72 |
-| Data | 72 | 16 | 56 |
-| Commerce | 72 | 16 | 56 |
-| Maps | 72 | 8 | 64 |
-| Time | 72 | 8 | 64 |
-| **Total** | **880** | **152** | **728** |
+| UI | 70 | 30 | 40 |
+| Arrows | 70 | 30 | 40 |
+| Files | 70 | 38 | 32 |
+| Media | 70 | 30 | 40 |
+| Communication | 80 | 24 | 56 |
+| People | 72 | 32 | 40 |
+| Devices | 80 | 24 | 56 |
+| Status | 80 | 24 | 56 |
+| Data | 72 | 24 | 48 |
+| Commerce | 72 | 32 | 40 |
+| Maps | 72 | 24 | 48 |
+| Time | 72 | 32 | 40 |
+| **Total** | **880** | **344** | **536** |
 
 The taxonomy has a hard ceiling of 12 semantic categories. Variations such as direction, state, object family, and industry are represented by tags and family metadata instead of creating more top-level categories.
 
@@ -51,8 +51,8 @@ Batch 002 through Batch 027 contain 32 icons each. Batch 028 contains the final 
 ```text
 B02 CDGE  B03 UAFM  B04 GELT
 B05 CPDS  B06 PSLT  B07 UAFM
-B08 CSUA  B09 DGPL  B10 ETFM
-B11 CPFT  B12 DSUE  B13 GLAM
+B08 ESUA  B09 GDPL  B10 ETFM
+B11 CPFT  B12 DSUC  B13 GLAM
 B14 CDAL  B15 PSFG  B16 UMET
 B17 CSMG  B18 DPUT  B19 ELAF
 B20 CPDS  B21 UAFM  B22 GELT
@@ -66,9 +66,26 @@ The sequence deliberately alternates mature and new categories so a single relea
 - Batch 003: 208 total / 88 Originals.
 - Batch 004: 240 total / 120 Originals.
 - Batch 005: 272 total / 152 Originals.
+- Batch 006: 304 total / 184 Originals.
+- Batch 007: 336 total / 216 Originals.
+- Batch 008: 368 total / 248 Originals.
+- Batch 009: 400 total / 280 Originals.
+- Batch 010: 432 total / 312 Originals.
+- Batch 011: 464 total / 344 Originals.
 - Batch 012: 496 total / 376 Originals.
 - Batch 013: 528 total / 408 Originals.
 - Batch 028: 1,000 total / 880 Originals.
+
+The completed release-order snapshots are:
+
+| Release | Total | SHA-256 catalog-order digest |
+| --- | ---: | --- |
+| Batch 006 | 304 | `7fee2b83e2c2d46024a50da617bd8b014d7dc82a5f9367c03c012d58e82b6a49` |
+| Batch 007 | 336 | `77cc018846bada4feefd24f7e69b92bd25dadd85f19a5a2ddba0a7907ef18207` |
+| Batch 008 | 368 | `bbee58bb37c4a10f1af05f1ec8dbcd3e78c1c01c7b42c61279fe095e8550a7cb` |
+| Batch 009 | 400 | `21ee0364b72597120661ccb48d6f6e4b84181e971d3b034145a3481f028b7043` |
+| Batch 010 | 432 | `92aadf35ed4ecc547c1a1387b399a0e4cd4e937e74595407645904578d2d9eb2` |
+| Batch 011 | 464 | `c522bc80a0ee75e7d2fb90253e4aa31b618b7aa06428f4f6fc2c80d9825fa4a9` |
 
 ## Batch contract
 
@@ -78,7 +95,7 @@ Every 32-icon batch must include:
 2. Geometry components grouped by semantic category, using the shared 24×24 outline factory.
 3. Registry entries whose key, component `displayName`, and catalog metadata agree.
 4. Automatic validation for safe SVG elements and attributes, path syntax, bounds, primitive limits, well-formed exported SVG, license comments, and full-catalog geometry uniqueness.
-5. A fixed digest proving that all already-published slugs remain in their original standard order. Each release adds its full published baseline digest for the next batch; Batch 005 locks the original 144, Batch 002's 176, Batch 003's 208, Batch 004's 240, and the new 272-item order.
+5. A fixed digest proving that all already-published slugs remain in their original standard order. Each release adds its full baseline digest for the next batch; Batch 011 retains the 144/176/208/240/272/304/336/368/400/432 snapshots and locks the new 464-item order.
 6. Search checks for English, Japanese, category, direct URL state, and back/forward state restoration.
 7. Production, Sites-worker, and GitHub Pages base-path builds before publication.
 
@@ -105,12 +122,35 @@ Semantic category filtering is separate from the `Originals` collection filter. 
 
 Communication and Devices each gain eight concepts, while People and Status become active public categories with eight concepts each. The complete 12-category taxonomy is now represented in the catalog without adding another top-level category.
 
+### Batch 006 checkpoint (implementation and QA completed; deployment pending)
+
+People, Status, Maps, and Time each gain eight concepts. The release contains 304 icons in total, including 184 Originals.
+
+### Batch 007 checkpoint (implementation and QA completed; deployment pending)
+
+UI, Arrows, Files, and Media each gain eight concepts. The release contains 336 icons in total, including 216 Originals.
+
+### Batch 008 checkpoint (implementation and QA completed; deployment pending)
+
+Commerce, Status, UI, and Arrows each gain eight concepts. The release contains 368 icons in total, including 248 Originals. Batch 012 uses Communication instead of Commerce so the remaining sequence still reaches the final category allocation exactly.
+
+### Batch 009 checkpoint (implementation and QA completed; deployment pending)
+
+Data, Devices, People, and Maps each gain eight concepts. The release contains 400 icons in total, including 280 Originals.
+
+### Batch 010 checkpoint (implementation and QA completed; deployment pending)
+
+Commerce, Time, Files, and Media each gain eight concepts. The release contains 432 icons in total, including 312 Originals.
+
+### Batch 011 checkpoint (implementation and QA completed; deployment pending)
+
+Communication, People, Files, and Time each gain eight concepts. The current implementation contains 464 icons in total, including 344 Originals.
+
 ### Before 500 icons
 
-- Keep batch metadata in separate modules instead of growing `catalog.jsx`.
-- Generate a slug reservation ledger and a machine-readable category-count report.
-- Add the perceptual near-duplicate report to CI.
-- Record production bundle size and search response benchmarks.
+- Completed: keep batch metadata in separate modules instead of growing `catalog.jsx`.
+- Completed: add the perceptual near-duplicate report to CI.
+- Completed: publish `site/public/catalog-scale-report.json` as the machine-readable category, batch, reserved-slug, bundle-size, and search-benchmark report.
 
 ### Before 750 icons
 

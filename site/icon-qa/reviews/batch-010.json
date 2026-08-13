@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 2,
+  "algorithm": "pathroom-dct64-content-ssim-v1",
+  "batch": "010",
+  "renderDigest": "fa79a2c25ecb5601ce755e200fee9b9e337d8ab67e0eb9895e90a1772547d62a",
+  "approvalDigest": "83edb080bc3bc011f165c4ea721ee52709e34705caf0153a3308da12376ebd08",
+  "icons": [
+    {
+      "slug": "purchase-order",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "shipping-label",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "order-tracking",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "backorder-notice",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "price-drop-alert",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "auction-bid",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "escrow-hold",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "digital-storefront",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "clock-in",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "clock-out",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "appointment-reminder",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "schedule-conflict",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "time-blocking",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "duration-estimate",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "buffer-time",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "reschedule-event",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "file-pdf",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "file-presentation",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "file-image",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "document-compare",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "folder-search",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "file-shortcut",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "document-redacted",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "file-conflict",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "noise-cancellation",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "video-stabilization",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "color-grading",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "chroma-key",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "video-transition",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "keyframe-timeline",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "photo-crop",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    },
+    {
+      "slug": "audio-crossfade",
+      "decision": "pass",
+      "note": "Reviewed at 16px, 24px, and 32px; the semantic silhouette remains distinct and readable."
+    }
+  ],
+  "pairs": [
+    {
+      "key": "document-redacted::document-template",
+      "firstSlug": "document-redacted",
+      "secondSlug": "document-template",
+      "reasons": [
+        "phash"
+      ],
+      "decision": "accept-distinct",
+      "rationale": "The shared document shell is expected; staggered redaction bars remain distinguishable from uniform template rows at 16px, 24px, and 32px."
+    }
+  ]
+}

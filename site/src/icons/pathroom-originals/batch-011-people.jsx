@@ -1,0 +1,11 @@
+import React from "react";
+import { createOriginalIcon } from "./createOriginalIcon.jsx";
+
+export const IconPathroomTeacher = createOriginalIcon("IconPathroomTeacher", <><circle cx="9" cy="7" r="3" /><path d="M4 21 V16 C4 12 6 11 9 11 C12 11 14 13 14 17 V21" /><circle cx="18" cy="14" r="3" /><path d="M18 11 C18 9 20 8 21 8 M16 18 H20" /></>);
+export const IconPathroomPoliceOfficer = createOriginalIcon("IconPathroomPoliceOfficer", <><path d="M7 7 L12 3 L17 7 L15 10 H9 Z" /><circle cx="12" cy="12" r="3" /><path d="M5 22 C5 18 8 15 12 15 C16 15 19 18 19 22 M12 4 V7" /></>);
+export const IconPathroomConstructionSurveyor = createOriginalIcon("IconPathroomConstructionSurveyor", <><circle cx="7" cy="7" r="2.5" /><path d="M3 21 V15 C3 12 5 11 7 11 C9 11 11 13 11 16 V21" /><path d="M14 6 H21 L18 10 Z M18 10 V21 M15 21 H21" /></>);
+export const IconPathroomDeliveryRider = createOriginalIcon("IconPathroomDeliveryRider", <><circle cx="6" cy="18" r="3" /><circle cx="18" cy="18" r="3" /><path d="M6 18 L10 12 H16 L18 18 M10 12 L13 18 H6 M15 9 H20 V13 H15 Z" /><circle cx="11" cy="6" r="2" /></>);
+export const IconPathroomMusician = createOriginalIcon("IconPathroomMusician", <><circle cx="7" cy="7" r="2.5" /><path d="M3 21 V15 C3 12 5 11 7 11 C9 11 11 13 11 16 V21" /><path d="M15 5 V17 C15 20 11 20 11 17 C11 14 15 14 15 17 M15 7 L21 5 V15 C21 18 17 18 17 15 C17 12 21 12 21 15" /></>);
+export const IconPathroomPhotographer = createOriginalIcon("IconPathroomPhotographer", <><circle cx="7" cy="6" r="2.5" /><path d="M3 21 V14 C3 11 5 10 7 10 C9 10 11 12 11 15 V21" /><path d="M10 12 H14 L16 9 H19 L21 12 V20 H10 Z" /><circle cx="16" cy="16" r="2.5" /></>);
+export const IconPathroomGardener = createOriginalIcon("IconPathroomGardener", <><circle cx="7" cy="6" r="2.5" /><path d="M3 21 V14 C3 11 5 10 7 10 C9 10 11 12 11 15 V21" /><path d="M15 21 V10 M15 12 C12 11 12 7 15 7 C18 7 18 11 15 12 M15 16 C18 14 21 15 21 18 C18 19 16 18 15 16" /></>);
+export const IconPathroomScientist = createOriginalIcon("IconPathroomScientist", <><circle cx="7" cy="6" r="2.5" /><path d="M3 21 V14 C3 11 5 10 7 10 C9 10 11 12 11 15 V21" /><path d="M16 3 V9 L12 18 C11 20 13 21 16 21 C19 21 21 20 20 18 L16 9 M13 5 H19 M13 16 H19" /></>);

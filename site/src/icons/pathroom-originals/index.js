@@ -46,6 +46,30 @@ export * from "./batch-005-communication.jsx";
 export * from "./batch-005-people.jsx";
 export * from "./batch-005-devices.jsx";
 export * from "./batch-005-status.jsx";
+export * from "./batch-006-people.jsx";
+export * from "./batch-006-status.jsx";
+export * from "./batch-006-maps.jsx";
+export * from "./batch-006-time.jsx";
+export * from "./batch-007-ui.jsx";
+export * from "./batch-007-arrows.jsx";
+export * from "./batch-007-files.jsx";
+export * from "./batch-007-media.jsx";
+export * from "./batch-008-commerce.jsx";
+export * from "./batch-008-status.jsx";
+export * from "./batch-008-ui.jsx";
+export * from "./batch-008-arrows.jsx";
+export * from "./batch-009-data.jsx";
+export * from "./batch-009-devices.jsx";
+export * from "./batch-009-people.jsx";
+export * from "./batch-009-maps.jsx";
+export * from "./batch-010-commerce.jsx";
+export * from "./batch-010-time.jsx";
+export * from "./batch-010-files.jsx";
+export * from "./batch-010-media.jsx";
+export * from "./batch-011-communication.jsx";
+export * from "./batch-011-people.jsx";
+export * from "./batch-011-files.jsx";
+export * from "./batch-011-time.jsx";
 
 import {
   IconPathroomCommandKey,
@@ -83,6 +107,12 @@ import { batch002Icons } from "./batch-002-registry.js";
 import { batch003Icons } from "./batch-003-registry.js";
 import { batch004Icons } from "./batch-004-registry.js";
 import { batch005Icons } from "./batch-005-registry.js";
+import { batch006Icons } from "./batch-006-registry.js";
+import { batch007Icons } from "./batch-007-registry.js";
+import { batch008Icons } from "./batch-008-registry.js";
+import { batch009Icons } from "./batch-009-registry.js";
+import { batch010Icons } from "./batch-010-registry.js";
+import { batch011Icons } from "./batch-011-registry.js";
 
 export const pathroomOriginalIcons = Object.freeze({
   sparkles: IconPathroomSparkles,
@@ -113,4 +143,10 @@ export const pathroomOriginalIcons = Object.freeze({
   ...batch003Icons,
   ...batch004Icons,
   ...batch005Icons,
+  ...batch006Icons,
+  ...batch007Icons,
+  ...batch008Icons,
+  ...batch009Icons,
+  ...batch010Icons,
+  ...batch011Icons,
 });
